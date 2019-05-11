@@ -137,6 +137,7 @@ def SpecificList(in_list) :
 
         elif answer == "11" :
             print("return to list of lists....") # temp
+            break
 
         else :
             print("Invalid answer.")
