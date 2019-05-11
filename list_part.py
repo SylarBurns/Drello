@@ -1,4 +1,6 @@
-def ListofLists(in_board) :
+from Specific_Card import *
+
+def ListofLists(in_board, curr_cursor) :
     while(1) :
         print("1. List up all list in board")
         print("2. Search specific list")
@@ -21,7 +23,7 @@ def ListofLists(in_board) :
             # find specific list's information from sql..
             # print out information
             # 지금은 바로 함수 타고 들어가는 건데 이렇게 할지 아니면 정보만 보여주고 다른거 더 만들지 결정
-            SpecificList(get_list_id)
+            SpecificList(get_list_id, curr_cursor)
             print("printing done") # temp
 
         elif answer == "3" :
@@ -40,7 +42,7 @@ def ListofLists(in_board) :
             get_list_id = input("Give a list's id you want change position")
             get_list_position = input("Give a list's position")
             # 변경하기.. 근데 어떻게 변경하지
-            # 일단 해당 보드의 리스트 전부 가져오고 포지션보다 큰 애들을 전부 1씩 증가시켜줘야하나..
+            # 쿼리에서 가져올때 특정 포지션보다 큰 애들만 가져오자
 
             print("printing done") # temp
 
@@ -64,12 +66,13 @@ def ListofLists(in_board) :
 
         elif answer == "9" :
             print("return to board....") # temp
+            break
 
         else :
             print("Invalid answer.")
 
 
-def SpecificList(in_list) :
+def SpecificList(in_list, curr_cursor) :
     while(1) :
         print("1. Show list's information.")
         print("2. Search cards")
@@ -94,6 +97,7 @@ def SpecificList(in_list) :
             get_list_id = input("Give a cards's id")
             # find specific list's information from sql..
             # 정보만 보여줄지 바로 함수로 타고 들어갈지 결정
+            chosen_card = Specific_Card_Manager(get_list_id, curr_cursor) # cursor
             print("printing done") # temp
 
         elif answer == "3" :
