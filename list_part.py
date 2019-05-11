@@ -64,6 +64,7 @@ def ListofLists(in_board) :
 
         elif answer == "9" :
             print("return to board....") # temp
+            break
 
         else :
             print("Invalid answer.")
