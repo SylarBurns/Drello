@@ -1,11 +1,21 @@
 
 # coding: utf-8
-
-# In[ ]:
-
+import mysql.connector
 import Menu
 
-def start():
+# usersql = """CREATE TABLE User(
+# 	User_ID int NOT NULL,
+# 	User_PW varchar(32) NOT NULL,
+# 	User_Email varchar(64) NOT NULL,
+# 	User_Name varchar(16) NOT NULL,
+# 	User_Language varchar(16) NOT NULL,
+# 	User_Profile varchar(1024),
+# 	PRIMARY KEY(User_ID)
+# )"""
+
+def start(cursor):
+    # cursor.execute(usersql)
+
     print("--------- Welcom Drello -----------")
     print("1. LOGIN")
     print("2. JOIN")
@@ -13,18 +23,22 @@ def start():
     choice = int(input("Enter the number for your choice: "))
 
     if choice == 1:
-        login()
-        Menu.menu()
+        login(cursor)
+        
     elif choice == 2:
-        join()
-        Menu.menu()
+        join(cursor)
     else :
         print("다시 입력해주세요.")
-        start()
+        start(cursor)
 
-def login():
+def login(cursor):
     print("login")
-def join():
+    user_ID = 000
+    Menu.Menu(cursor , user_ID)
+
+def join(cursor):
     print("join")
     print("auto login")
+    user_ID = 111
+    Menu.Menu(cursor , user_ID)
 
