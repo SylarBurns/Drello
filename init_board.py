@@ -20,9 +20,10 @@ user = """CREATE TABLE User(
 	PRIMARY KEY(User_ID)
 )"""
 
-board_table_create_sql = """CREATE TABLE Board (
+board = """CREATE TABLE Board (
     Board_ID int NOT NULL AUTO_INCREMENT,
-    Team_ID int,
+    Team_ID int DEFAULT -1,
+    User_ID int DEFAULT -1,
     Board_Title varchar(128) NOT NULL,
     CommentPerm varchar(128) NOT NULL,
     AddRmPerm varchar(128) NOT NULL,
@@ -31,7 +32,7 @@ board_table_create_sql = """CREATE TABLE Board (
     PRIMARY KEY (Board_ID)
 )"""
 
-boardMember_table_create_sql = """CREATE TABLE BoardMember(
+boardMember= """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
     User_ID int NOT NULL,
     CONSTRAINT board_member UNIQUE (Board_ID, User_ID),
@@ -74,7 +75,7 @@ Activity="""CREATE TABLE Activity(
    DateTime TIMESTAMP,
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
    FOREIGN KEY (List_ID) REFERENCES List(List_ID) ON UPDATE CASCADE,
-   FOREIGN KEY (Card_ID) REFERENCES Card(Board_ID) ON UPDATE CASCADE,
+   FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Activity_ID)
 )"""
@@ -85,7 +86,6 @@ Notice="""CREATE TABLE Notice (
    CONSTRAINT Notice_Link UNIQUE (Activity_ID, User_ID),
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
-
 Watch="""CREATE TABLE Watch(
    User_ID int NOT NULL,
    ID_type varchar(10) NOT NULL,
@@ -124,7 +124,7 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
-sql_list = [user, board_table_create_sql, boardMember_table_create_sql, List, Label, Card, Activity, Notice, Watch, CheckList, Comment, Attachment]
+sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment]
 for sql in sql_list:
     mycursor.execute(sql)
 
