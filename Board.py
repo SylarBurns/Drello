@@ -1,14 +1,14 @@
 # Board.py
-import mysql.connector
+# import mysql.connector
 import Board_Specific
 
-mydb = mysql.connector.connect(
-    host ='localhost',
-    user='root',
-    passwd='mz0090mz',
-    database="testdb"
-)
-mycursor = mydb.cursor()
+# mydb = mysql.connector.connect(
+#     host ='localhost',
+#     user='root',
+#     passwd='mz0090mz',
+#     database="testdb"
+# )
+# mycursor = mydb.cursor()
 
 class Board_Manager:
     def __init__(self, new_user_ID, new_cursor):
@@ -80,5 +80,6 @@ class Board_Manager:
                 print("return to previous view")
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
-                
+
+mycursor = ""                
 a =Board_Manager(55, mycursor)

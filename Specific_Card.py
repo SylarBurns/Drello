@@ -14,7 +14,7 @@ class Specific_Card_Manager:
         print("Specific Card start!")
         choice = 0
 
-        while choice != 7:
+        while choice != '7':
             self.card_info()
             Specific_Card_Manager.menu()
             # print("1. Edit Card\n2. Checklists\n3. Comments\n4. Attachments\n5. Activity\n6. Share\n7. Go Back")
@@ -33,6 +33,7 @@ class Specific_Card_Manager:
                 self.share()
             elif choice == '7':
                 print("return to previous view")
+                break
             else:
                 print("Wrong choice! Please enter again")
     @staticmethod
