@@ -1,6 +1,7 @@
 
 import mysql.connector
 import Menu
+import Board
 
 class Team:
     def __init__(self, cursor , user_ID):
@@ -81,9 +82,10 @@ class Team:
         self.editTeamProfile()
 
     def teamsBoard(self):
+        BOARD = Board.Board_Manager(self.user_ID, self.cursor)
+
         print("----------Team's Board------------")
-        print("1. OS meeting")
-        print("2. DB meeting")
+        BOARD.board_list()
         print("----------------------------------")
         print("+ : Create Board")
         print("0 : Back")
@@ -92,15 +94,12 @@ class Team:
         if(choice == "0"):
             self.selectTeam()
         elif(choice == "+"):
-            print("********************createBoard")
-        elif(int(choice) <= 2 and int(choice) !=0):  
-            print("***********************speicific board")
+            BOARD.board_create()
+        elif(int(choice) <= 8 and int(choice) !=0):  
+            BOARD.board_specific(int(choice))
         else :
             print("Wrong input. Enter again.")
-            self.teamsBoard()
-
-        
-        
+            self.teamsBoard() 
 
     def teamsMember(self):
         self.teamMemberList()
@@ -112,7 +111,6 @@ class Team:
         else :
             print("user가 normal이면 Leave만 가능")
             self.NormalUser()
-
 
     def teamMemberList(self):
         print("-------Members Of Team Boards--------")

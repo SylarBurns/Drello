@@ -16,7 +16,7 @@ import Menu
 def start(cursor):
     # cursor.execute(usersql)
 
-    print("--------- Welcom Drello -----------")
+    print("--------- Welcome Drello -----------")
     print("1. LOGIN")
     print("2. JOIN")
     print("-----------------------------------")

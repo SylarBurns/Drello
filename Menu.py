@@ -4,7 +4,7 @@ import mysql.connector
 import User
 import Login
 import Team
-# import Board
+import Board
 
 class Menu :
     def __init__(self, cursor, user_ID ):
@@ -29,7 +29,8 @@ class Menu :
         
     def board(self):
         print("SQL about board")
-        
+        BOARD = Board.Board_Manager(self.user_ID, self.cursor)
+        BOARD.start()
         
     def notice(self):
         print("SQL about notice")
@@ -40,7 +41,7 @@ class Menu :
     
     def start(self):
         self.menu()
-        choice = int(input("Enter the number for your choice: "))
+        choice = int(input("Enter the number of SQL content you want to see"))
 
         if(choice == 1) :
             self.user()
