@@ -1,3 +1,5 @@
+from list_part import *
+
 class Specific_Board_Manager:
     def __init__(self, new_Board_ID, new_cursor):
         self.Board_ID = new_Board_ID
@@ -17,6 +19,8 @@ class Specific_Board_Manager:
         print("Start editing")
     def lists(self):
         print("Entering the list of lists")
+        dummy_list = 1
+        ListofLists(dummy_list)
     def board_notice(self):
         myresult = [('firstNotice', 1), ('secondNotice', 2), ('thirdNotice', 3)]
         for (content, ID) in myresult:
