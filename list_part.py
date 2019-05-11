@@ -1,4 +1,4 @@
-import Specific_Card
+from Specific_Card import *
 
 def ListofLists(in_board) :
     while(1) :
@@ -98,7 +98,7 @@ def SpecificList(in_list) :
             # find specific list's information from sql..
             # 정보만 보여줄지 바로 함수로 타고 들어갈지 결정
             cursor = ""
-            chosen_card = Specific_Card.Specific_Card_Manager(get_list_id, cursor/*cursor*/)
+            chosen_card = Specific_Card_Manager(get_list_id, cursor) # cursor
             print("printing done") # temp
 
         elif answer == "3" :
