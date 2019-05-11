@@ -13,6 +13,7 @@ class Specific_Card_Manager:
     def start(self):
         print("Specific Card start!")
         choice = 0
+
         while choice != 7:
             self.card_info()
             Specific_Card_Manager.menu()

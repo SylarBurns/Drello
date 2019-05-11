@@ -5,8 +5,8 @@ import Board_Specific
 mydb = mysql.connector.connect(
     host ='localhost',
     user='root',
-    passwd='sylar475869*',
-    database="Drello"
+    passwd='mz0090mz',
+    database="testdb"
 )
 mycursor = mydb.cursor()
 
@@ -67,7 +67,7 @@ class Board_Manager:
         choice = 0
         while(choice != 4):
             print("1 Search\n2 Create Board\n3 Delete Board\n4 Go Back\n-----------\nYour Boards\n-----------")
-            self.board_list();
+            self.board_list()
             choice = input("Enter the number for your choice: ")
             choice = int(choice)
             if choice == 1:
@@ -80,4 +80,5 @@ class Board_Manager:
                 print("return to previous view")
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
+                
 a =Board_Manager(55, mycursor)
