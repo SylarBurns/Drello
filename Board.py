@@ -16,7 +16,6 @@ class Board_Manager:
         self.count = 5
         self.mycursor = new_cursor
         self.Board_list={}
-        self.start()
     def board_list(self):
         # board_sql = "SELECT Board_Title, Board_ID FROM Board INNER JOIN BoardMember ON Board.User_ID = BoardMember.User_ID WHERE BoardMember.User_ID = %s"
         # self.mycursor.execute(board_sql, (self.user_ID))
@@ -83,3 +82,4 @@ class Board_Manager:
 
 mycursor = ""                
 a =Board_Manager(55, mycursor)
+a.start()
