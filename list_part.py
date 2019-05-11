@@ -1,3 +1,5 @@
+import Specific_Card
+
 def ListofLists(in_board) :
     while(1) :
         print("1. List up all list in board")
@@ -95,6 +97,8 @@ def SpecificList(in_list) :
             get_list_id = input("Give a cards's id")
             # find specific list's information from sql..
             # 정보만 보여줄지 바로 함수로 타고 들어갈지 결정
+            cursor = ""
+            chosen_card = Specific_Card.Specific_Card_Manager(get_list_id, cursor/*cursor*/)
             print("printing done") # temp
 
         elif answer == "3" :
