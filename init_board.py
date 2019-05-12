@@ -3,15 +3,16 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host ='localhost',
     user='root',
-    passwd='sylar475869*',
-    database="Drello"
+    passwd='mz0090mz',
+    database='Drello'
 )
 
 mycursor = mydb.cursor()
 create_database = "CREATE DATABASE Drello"
+#mycursor.execute(create_database)
 
 user = """CREATE TABLE User(
-	User_ID int NOT NULL,
+	User_ID int NOT NULL AUTO_INCREMENT,
 	User_PW varchar(32) NOT NULL,
 	User_Email varchar(64) NOT NULL,
 	User_Name varchar(16) NOT NULL,
@@ -148,6 +149,3 @@ TeamMember = """CREATE TABLE TeamMember(
 sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
 for sql in sql_list:
     mycursor.execute(sql)
-
-for tb in mycursor:
-    print(tb)
