@@ -1,7 +1,7 @@
 
 import mysql.connector
 import Menu
-import Board
+# import Board
 import os
 
 class Team:
@@ -86,11 +86,11 @@ class Team:
         self.editTeamProfile()
 
     def teamsBoard(self):
-        BOARD = Board.Board_Manager(self.user_ID, self.cursor)
+        # BOARD = Board.Board_Manager(self.user_ID, self.cursor)
 
         os.system('cls' if os.name == 'nt' else 'clear')
         print("----------Team's Board------------")
-        BOARD.board_list()
+        # BOARD.board_list()
         print("----------------------------------")
         print("+ : Create Board")
         print("0 : Back")
@@ -99,9 +99,11 @@ class Team:
         if(choice == "0"):
             self.selectTeam()
         elif(choice == "+"):
-            BOARD.board_create()
+            # BOARD.board_create()
+            print("board_create")
         elif(int(choice) <= 8 and int(choice) !=0):  
-            BOARD.board_specific(int(choice))
+            # BOARD.board_specific(int(choice))
+            print("board specific")
         else :
             print("Wrong input. Enter again.")
             self.teamsBoard() 

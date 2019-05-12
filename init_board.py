@@ -1,10 +1,11 @@
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host ='localhost',
-    user='root',
-    passwd='mz0090mz',
-    database='Drello'
+  host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
+  port=3306,
+  user="gyqls",
+  passwd="rnjssmdsoRj1",
+  database = "Drello"
 )
 
 mycursor = mydb.cursor()
@@ -168,7 +169,12 @@ users =[("hyeon-62", "123123", "21700646@handong.edu", "hyewon", "Korean", "Hi! 
         ("first-id", "12345", "hi@handong.edu", "hello", "Korean", "Hi! I'm hello"),
         ("english_id", "abcde", "hello@naver.com", "name_abc", "English", "Hello world"),
         ("math", "xyz123", "mathlove@naver.com", "math_name", "Korean", "Hi! i love math"),
-        ("cs_love", "helloworld", "cs@handong.edu", "cs_lover", "Korean", "hello, world"),]
+        ("cs_love", "helloworld", "cs@handong.edu", "cs_lover", "Korean", "hello, world"),
+        ("Handong","JC@handong,edu", "1004", "JC", "Korean", "Hi"),
+        ("gyqls","HB@handong.edu", "1005", "HyoBin", "Korean" , ""),
+        ("yujineee","yujin@handong.edu", "1006", "yujin", "Korean", "I'm yujin"),
+        ("user24339877","user24339877@handong.edu", "1007", "이승윤", "Korean", "Drello lover"),
+        ("hyewon43","hyewon43@handong.edu", "1008", "Hyewon", "Korean", "best developer")]
 mycursor.executemany(sqlFormula, users)
 
 sqlFormula = "INSERT INTO Board (User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"

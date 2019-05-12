@@ -4,11 +4,11 @@ import mysql.connector
 import User
 import Login
 import Team
-import Board
+# import Board
 import os
 
 class Menu :
-    def __init__(self, cursor, user_ID):
+    def __init__(self, db, cursor, user_ID):
         self.cursor = cursor
         self.user_ID = user_ID
         self.db = db
@@ -16,6 +16,7 @@ class Menu :
 
     def menu(self):
         os.system('cls' if os.name == 'nt' else 'clear')
+
         print("1. USER")
         print("2. TEAM")
         print("3. BOARD")
@@ -33,18 +34,19 @@ class Menu :
     def board(self):
         print("SQL about board")
         BOARD = Board.Board_Manager(self.user_ID, self.cursor)
-        BOARD.start()
+        # BOARD.start()
         
     def notice(self):
         print("SQL about notice")
         
     def logout(self):
-        print("logout")
-        Login.start(self.cursor)
+        print("\nLOGOUT , Go to start page.")
+        input("\n\nPlease Enter to go to NEXT ! :")
+        Login.start(self.db)
     
     def start(self):
         self.menu()
-        choice = int(input("Enter the number of SQL content you want to see"))
+        choice = int(input("Enter the number of SQL content you want to see : "))
 
         if(choice == 1) :
             self.user()

@@ -3,13 +3,13 @@ import mysql.connector
 import Board_Specific
 import Menu
 import os
-mydb = mysql.connector.connect(
-    host ='localhost',
-    user='root',
-    passwd='sylar475869*',
-    database="drello"
-)
-mycursor = mydb.cursor()
+# mydb = mysql.connector.connect(
+#     host ='localhost',
+#     user='root',
+#     passwd='sylar475869*',
+#     database="drello"
+# )
+# mycursor = mydb.cursor()
 
 class Board_Manager:
     def __init__(self, new_user_ID, new_cursor):
