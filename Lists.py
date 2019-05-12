@@ -24,6 +24,7 @@ class Checklist_List_Manager:
         self.list = {}
     @staticmethod
     def checklist_menu():
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Create new Checklist")
         print("2. Delete Checklist")
         print("3. View Checklist")
@@ -116,6 +117,7 @@ class Comment_List_Manager:
         self.list = {}
     @staticmethod
     def comment_menu():
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Add Comment")
         print("2. Delete Comment")
         print("3. Edit Comment")
@@ -157,6 +159,7 @@ class Attachment_List_Manager:
         self.list = {}
     @staticmethod
     def attachment_menu():
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Add an Attachment")
         print("2. Delete an Attachment")
         print("3. Edit an Attachment")

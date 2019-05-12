@@ -1,7 +1,9 @@
 from Specific_Card import *
+import os
 
 def ListofLists(in_board, curr_cursor) :
     while(1) :
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. List up all list in board")
         print("2. Search specific list")
         print("3. Add new list")
@@ -74,6 +76,7 @@ def ListofLists(in_board, curr_cursor) :
 
 def SpecificList(in_list, curr_cursor) :
     while(1) :
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Show list's information.")
         print("2. Search cards")
         print("3. Watch the list / Disable the watch")

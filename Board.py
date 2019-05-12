@@ -1,7 +1,7 @@
 # Board.py
 # import mysql.connector
 import Board_Specific
-
+import os
 # mydb = mysql.connector.connect(
 #     host ='localhost',
 #     user='root',
@@ -63,6 +63,7 @@ class Board_Manager:
         print("You selected",self.Board_list[choice])
         chosen_board = Board_Specific.Specific_Board_Manager(self.Board_list[choice],self.mycursor)
     def start(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Let's get this party started!")
         choice = 0
         while(choice != 4):
@@ -81,6 +82,7 @@ class Board_Manager:
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
 
+            os.system('cls' if os.name == 'nt' else 'clear')
 # mycursor = ""                
 # a =Board_Manager(55, mycursor)
 # a.start()

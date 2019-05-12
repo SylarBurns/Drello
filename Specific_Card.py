@@ -1,4 +1,5 @@
 import Lists
+import os
 
 class Specific_Card_Manager:
     def __init__(self, card_ID, cursor):
@@ -11,6 +12,7 @@ class Specific_Card_Manager:
         self.cursor = cursor
         self.start()
     def start(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Specific Card start!")
         choice = 0
 
