@@ -59,6 +59,7 @@ class Board_Manager:
     def board_search(self):
         search_target = input("Enter the title of the board: ") 
     def board_specific(self, choice):
+        #choice가 board_ID 인건가요  ? ?  ?
         print("You selected",self.Board_list[choice])
         chosen_board = Board_Specific.Specific_Board_Manager(self.Board_list[choice],self.mycursor)
     def start(self):
@@ -80,6 +81,6 @@ class Board_Manager:
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
 
-mycursor = ""                
-a =Board_Manager(55, mycursor)
-a.start()
+# mycursor = ""                
+# a =Board_Manager(55, mycursor)
+# a.start()
