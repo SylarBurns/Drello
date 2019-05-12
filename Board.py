@@ -16,7 +16,6 @@ class Board_Manager:
         self.count = 5
         self.mycursor = new_cursor
         self.Board_list={}
-        self.start()
     def board_list(self):
         # board_sql = "SELECT Board_Title, Board_ID FROM Board INNER JOIN BoardMember ON Board.User_ID = BoardMember.User_ID WHERE BoardMember.User_ID = %s"
         # self.mycursor.execute(board_sql, (self.user_ID))
@@ -60,6 +59,7 @@ class Board_Manager:
     def board_search(self):
         search_target = input("Enter the title of the board: ") 
     def board_specific(self, choice):
+        #choice가 board_ID 인건가요  ? ?  ?
         print("You selected",self.Board_list[choice])
         chosen_board = Board_Specific.Specific_Board_Manager(self.Board_list[choice],self.mycursor)
     def start(self):
@@ -81,5 +81,6 @@ class Board_Manager:
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
 
-mycursor = ""                
-a =Board_Manager(55, mycursor)
+# mycursor = ""                
+# a =Board_Manager(55, mycursor)
+# a.start()
