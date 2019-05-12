@@ -21,7 +21,7 @@ user = """CREATE TABLE User(
 	PRIMARY KEY(User_ID)
 )"""
 
-board_table_create_sql = """CREATE TABLE Board (
+board = """CREATE TABLE Board (
     Board_ID int NOT NULL AUTO_INCREMENT,
     Team_ID int DEFAULT -1,
     User_ID varchar(32) DEFAULT NULL,
@@ -33,10 +33,9 @@ board_table_create_sql = """CREATE TABLE Board (
     PRIMARY KEY (Board_ID)
 )"""
 
-boardMember_table_create_sql = """CREATE TABLE BoardMember(
+boardMember= """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
-    User_ID int NOT NULL,
-    Permission varchar(16) NOT NULL,
+    User_ID varchar(32) NOT NULL,
     CONSTRAINT board_member UNIQUE (Board_ID, User_ID),
     FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE
 )"""
@@ -82,7 +81,7 @@ Activity="""CREATE TABLE Activity(
    DateTime TIMESTAMP,
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
    FOREIGN KEY (List_ID) REFERENCES List(List_ID) ON UPDATE CASCADE,
-   FOREIGN KEY (Card_ID) REFERENCES Card(Board_ID) ON UPDATE CASCADE,
+   FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Activity_ID)
 )"""
@@ -136,7 +135,6 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
-sql_list = [user, board_table_create_sql, boardMember_table_create_sql, List, Label, Card, Activity, Notice, Watch, CheckList, Comment, Attachment]
 
 Team ="""CREATE TABLE Team(
    Team_ID int NOT NULL AUTO_INCREMENT,
@@ -158,7 +156,7 @@ TeamMember = """CREATE TABLE TeamMember(
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
 
-# sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
+sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
 for sql in sql_list:
     mycursor.execute(sql)
 
@@ -177,5 +175,18 @@ boards =[(1, "First Board", "Yes", "Yes", True, "Private"),
          (1, "Second Board", "Yes", "Yes", False, "Public"),
          (2, "last Board", "Yes", "Yes", False, "Public"),]
 mycursor.executemany(sqlFormula, boards)
+
+sqlFormula = "INSERT INTO List (List_Title, Board_ID, Position) VALUES (%s, %s, %s)"
+lists = [("Avengers", 1, 1),
+         ("Captain America", 1, 2),
+         ("Iron Man", 1, 3),
+         ("Thor", 1, 4),
+         ("Hulk", 1, 5),
+         ("black widow", 1, 6),
+         ("Hawkeye", 1, 7),
+         ("First list", 2, 1),
+         ("Second List", 2, 2),
+         ("Third List", 2, 3),]
+mycursor.executemany(sqlFormula, lists)
 
 mydb.commit()
