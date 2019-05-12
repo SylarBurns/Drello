@@ -12,7 +12,7 @@ create_database = "CREATE DATABASE Drello"
 #mycursor.execute(create_database)
 
 user = """CREATE TABLE User(
-	User_ID int NOT NULL AUTO_INCREMENT,
+	User_ID varchar(32) NOT NULL,
 	User_PW varchar(32) NOT NULL,
 	User_Email varchar(64) NOT NULL,
 	User_Name varchar(16) NOT NULL,
@@ -24,7 +24,7 @@ user = """CREATE TABLE User(
 board = """CREATE TABLE Board (
     Board_ID int NOT NULL AUTO_INCREMENT,
     Team_ID int DEFAULT -1,
-    User_ID int DEFAULT -1,
+    User_ID varchar(32) DEFAULT NULL,
     Board_Title varchar(128) NOT NULL,
     CommentPerm varchar(128) NOT NULL,
     AddRmPerm varchar(128) NOT NULL,
@@ -35,10 +35,11 @@ board = """CREATE TABLE Board (
 
 boardMember= """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
-    User_ID int NOT NULL,
+    User_ID varchar(32) NOT NULL,
     CONSTRAINT board_member UNIQUE (Board_ID, User_ID),
     FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE
 )"""
+
 List = """CREATE TABLE List (
    List_ID int NOT NULL AUTO_INCREMENT,
    List_Title varchar(128) NOT NULL,
@@ -47,6 +48,7 @@ List = """CREATE TABLE List (
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
    PRIMARY KEY (List_ID)
 )"""
+
 Label="""CREATE TABLE Labels(
    Label_ID int NOT NULL AUTO_INCREMENT,
    Board_ID int NOT NULL,
@@ -55,6 +57,7 @@ Label="""CREATE TABLE Labels(
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Label_ID)
 )"""
+
 Card="""CREATE TABLE Card(
    Card_ID int NOT NULL AUTO_INCREMENT,
    List_ID int NOT NULL,
@@ -67,12 +70,13 @@ Card="""CREATE TABLE Card(
    FOREIGN KEY (List_ID) REFERENCES List(List_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Card_ID)
 )"""
+
 Activity="""CREATE TABLE Activity(
    Activity_ID int NOT NULL AUTO_INCREMENT,
    Board_ID int NOT NULL,
    List_ID int DEFAULT -1,
    Card_ID int DEFAULT -1,
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    Action varchar(256) NOT NULL,
    DateTime TIMESTAMP,
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
@@ -81,20 +85,23 @@ Activity="""CREATE TABLE Activity(
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Activity_ID)
 )"""
+
 Notice="""CREATE TABLE Notice (
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    Activity_ID int NOT NULL,
    ID int NOT NULL,
    CONSTRAINT Notice_Link UNIQUE (Activity_ID, User_ID),
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
+
 Watch="""CREATE TABLE Watch(
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    ID_type varchar(10) NOT NULL,
    ID int NOT NULL,
    Mark BOOLEAN DEFAULT false,
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
+
 CheckList="""CREATE TABLE Checklist(
    Checklist_ID int NOT NULL AUTO_INCREMENT,
    Card_ID int NOT NULL,
@@ -103,9 +110,10 @@ CheckList="""CREATE TABLE Checklist(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Checklist_ID)
 )"""
+
 Comment="""CREATE TABLE Comment(
    Comment_ID int NOT NULL AUTO_INCREMENT,
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    Card_ID int NOT NULL,
    Content varchar(256) NOT NULL,
    DateTime TIMESTAMP,
@@ -115,10 +123,11 @@ Comment="""CREATE TABLE Comment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Comment_ID)
 )"""
+
 Attachment="""CREATE TABLE Attachment(
    Attachment_ID int NOT NULL AUTO_INCREMENT,
    Card_ID int NOT NULL,
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    Type varchar(16) NOT NULL,
    Name varchar(64) NOT NULL,
    Is_deleted BOOLEAN DEFAULT false,
@@ -126,6 +135,7 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
+
 Team ="""CREATE TABLE Team(
    Team_ID int NOT NULL AUTO_INCREMENT,
    Name varchar(64) NOT NULL,
@@ -139,7 +149,7 @@ Team ="""CREATE TABLE Team(
 
 TeamMember = """CREATE TABLE TeamMember(
    Team_ID int NOT NULL,
-   User_ID int NOT NULL,
+   User_ID varchar(32) NOT NULL,
    Permission varchar(16) NOT NULL,
    CONSTRAINT board_member UNIQUE (Team_ID, User_ID),
    FOREIGN KEY (Team_ID) REFERENCES Team(Team_ID) ON UPDATE CASCADE,
