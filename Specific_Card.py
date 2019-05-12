@@ -1,16 +1,20 @@
 import Lists
+import os
 
 class Specific_Card_Manager:
-    def __init__(self, card_ID, cursor):
-        self.Attachment_list = Lists.Attachment_List_Manager(card_ID, cursor)
-        self.Checklist_list = Lists.Checklist_List_Manager(card_ID, cursor)
-        self.Activity_list = Lists.Activity_List_Manager(card_ID, cursor)
-        self.Comment_list = Lists.Comment_List_Manager(card_ID, cursor)
-        self.Label_list = Lists.Label_List_Manager(card_ID, cursor)
+    def __init__(self, card_ID, user_ID, DB):
+        self.db = DB
+        self.cursor = self.db.cursor()
+        self.Attachment_list = Lists.Attachment_List_Manager(card_ID, self.cursor)
+        self.Checklist_list = Lists.Checklist_List_Manager(card_ID, self.cursor)
+        self.Activity_list = Lists.Activity_List_Manager(card_ID, self.cursor)
+        self.Comment_list = Lists.Comment_List_Manager(card_ID, self.cursor)
+        self.Label_list = Lists.Label_List_Manager(card_ID, self.cursor)
         self.card_ID = card_ID
-        self.cursor = cursor
+        self.user_ID = user_ID
         self.start()
     def start(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Specific Card start!")
         choice = 0
 
@@ -50,28 +54,39 @@ class Specific_Card_Manager:
         print("1. Edit Title")
         print("2. Edit Description")
         print("3. Toggle Watch")
-        print("4. Add/Remove/Edit Due Date")
-        print("5. Go Back")
+        print("4. Add/Remove Label")
+        print("5. Add/Remove/Edit Due Date")
+        print("6. Go Back")
     def card_info(self):
         # get card information by using sql
-        Title = "title"
-        Due_date = "due date"
-        Member = "member"
-        self.Label_list.setting_labels()
-        Description = "description"
-        Watch = False
-        if Watch:
-            print("Title : " + Title + "*")
-        else:
-            print("Title : " + Title)
-        print("Due Date : " + Due_date)
-        self.Label_list.print_labels()
-        print("Member : " + Member)
-        print("Description : " + Description)
+        sql1 = "SELECT Card_Title, Description, Members, Label_ID, Due_Date FROM Card WHERE CARD_ID = %d" % self.card_ID
+        sql2 = "SELECT Mark FROM Watch WHERE ID_type = 'CARD' AND ID = %d AND User_ID = %d" % (self.card_ID, self.user_ID)
+        self.cursor.execute(sql1)
+        result1 = self.cursor.fetchone()
+        self.cursor.execute(sql2)
+        result2 = self.cursor.fetchone()
+        if result1 is not None and result2 is not None:
+            Title = result1[0]
+            Due_date = result1[4]
+            Member = result1[2]
+            Label = self.Label_list.setting_labels(result1[3])
+            Description = result1[1]
+            Watch = result2[0]
+            if Watch:
+                print("Title : " + Title + "*")
+            else:
+                print("Title : " + Title)
+            print("Due Date : " + Due_date)
+            if Label:
+                self.Label_list.print_labels()
+            print("Member : " + Member)
+            print("Description : " + Description)
+        else :
+            print("No Card")
     def edit_card(self):
         while True:
             Specific_Card_Manager.card_menu()
-            # print("1. Edit Title\n2. Edit Description\n3. Toggle Watch\n4. Add/Remove/Edit Due Date\n5. Go Back")
+            # print("1. Edit Title\n2. Edit Description\n3. Toggle Watch\n4. Add/Remove Label\n5. Add/Remove/Edit Due Date\n6. Go Back")
             choice = 0
             while True:
                 choice = input("Enter the number for your choice : ")
@@ -85,15 +100,20 @@ class Specific_Card_Manager:
                     self.toggle_watch()
                     break
                 elif choice == '4':
+                    self.label()
+                elif choice == '5':
                     self.due_date()
                     break
-                elif choice == '5':
+                elif choice == '6':
                     print("return to previous view")
                     break
                 else:
                     print("Wrong choice! Please enter again")
     def edit_title(self):
-        print("Edit Title")
+        # 현재 카드의 title을 HELLO로 변경
+        edit_title = "HELLO"
+        sql = "UPDATE Card SET Card_Title = %s WHERE Card_ID = %d" % (edit_title, self.card_ID)
+        self.db.commit()
     def edit_description(self):
         print("Edit Description")
     def toggle_watch(self):
@@ -121,6 +141,30 @@ class Specific_Card_Manager:
                     print("Edit Due Date")
                 elif choice == '2':
                     print("Remove Due Date")
+                else:
+                    print("Wrong choice! Please enter again")
+    def label(self):
+        while True:
+            # label 가져오기
+            l = ""
+            if l == "null":
+                choice = input("(1)Add Label  (q : Go back)")
+                if choice == 'q':
+                    print("return to previous view")
+                    break
+                elif choice == '1':
+                    print("Add Label")
+                else:
+                    print("Wrong choice! Please enter again")
+            else:
+                choice = input("(1)Add Label  (2)Remove Label  (q : Go back)")
+                if choice == 'q':
+                    print("return to previous view")
+                    break
+                elif choice == '1':
+                    print("Add Label")
+                elif choice == '2':
+                    print("Remove Label")
                 else:
                     print("Wrong choice! Please enter again")
     def checklists(self):

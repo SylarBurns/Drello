@@ -3,14 +3,24 @@ class Label_List_Manager:
         self.Card_ID = Card_ID
         self.cursor = cursor
         self.list = {}
-    def setting_labels(self):
-        # get data qry
-        # label id 가져와서 label table에서 name, color 받아오기
-        label_id = 1234
-        name = "name"
-        color = "color"
-        i = 1
-        self.list[i] = (label_id, name, color)
+    def setting_labels(self, label_IDs):
+        if label_IDs is None:
+            return False
+        else:
+            label_ids = label_IDs.split(",")
+            i = 1
+            for id in label_ids:
+                sql = "SELECT Name, Color FROM Labels WHERE Label_ID = %d" % id
+                self.cursor.execute(sql)
+                result = self.cursor.fetchone()
+                if result is not None:
+                    name = result[0]
+                    color = result[1]
+                    self.list[i] = (id, name, color)
+                    i += 1
+                else:
+                    print("No Label")
+            return True
     def print_labels(self):
         print("Label : ", end = "")
         for i in range(len(self.list)):
