@@ -2,6 +2,7 @@
 # coding: utf-8
 import mysql.connector
 import Menu
+import os
 
 class User:
     def __init__(self, cursor , user_ID):
@@ -10,6 +11,7 @@ class User:
         self.start()         
     
     def usermenu(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Show user info")
         print("2. Edit user info")
         print("3. Leave drello")
@@ -38,5 +40,6 @@ class User:
             Menu.Menu(self.cursor , self.user_ID)
         else :
             "잘못 누르셨습니다."
+
         self.start()
 
