@@ -136,7 +136,7 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
-# sql_list = [user, board_table_create_sql, boardMember_table_create_sql, List, Label, Card, Activity, Notice, Watch, CheckList, Comment, Attachment]
+sql_list = [user, board_table_create_sql, boardMember_table_create_sql, List, Label, Card, Activity, Notice, Watch, CheckList, Comment, Attachment]
 
 Team ="""CREATE TABLE Team(
    Team_ID int NOT NULL AUTO_INCREMENT,
