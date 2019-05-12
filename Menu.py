@@ -8,7 +8,7 @@ import Board
 import os
 
 class Menu :
-    def __init__(self, cursor, user_ID, db):
+    def __init__(self, cursor, user_ID):
         self.cursor = cursor
         self.user_ID = user_ID
         self.db = db
@@ -32,7 +32,7 @@ class Menu :
         
     def board(self):
         print("SQL about board")
-        BOARD = Board.Board_Manager(self.user_ID, self.cursor, db)
+        BOARD = Board.Board_Manager(self.user_ID, self.cursor)
         BOARD.start()
         
     def notice(self):
