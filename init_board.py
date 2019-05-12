@@ -36,6 +36,7 @@ board = """CREATE TABLE Board (
 boardMember= """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
     User_ID varchar(32) NOT NULL,
+    Permission varchar(16) NOT NULL,
     CONSTRAINT board_member UNIQUE (Board_ID, User_ID),
     FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE
 )"""
