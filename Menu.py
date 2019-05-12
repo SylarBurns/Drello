@@ -8,9 +8,10 @@ import Board
 import os
 
 class Menu :
-    def __init__(self, cursor, user_ID ):
+    def __init__(self, cursor, user_ID):
         self.cursor = cursor
         self.user_ID = user_ID
+        self.db = db
         self.start()
 
     def menu(self):
