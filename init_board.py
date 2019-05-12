@@ -159,3 +159,20 @@ TeamMember = """CREATE TABLE TeamMember(
 sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
 for sql in sql_list:
     mycursor.execute(sql)
+
+mycursor = mydb.cursor()
+
+sqlFormula = "INSERT INTO User (User_ID, User_PW, User_Email, User_Name, User_Language, User_Profile) VALUES (%s, %s, %s, %s, %s, %s)"
+users =[("hyeon-62", "123123", "21700646@handong.edu", "hyewon", "Korean", "Hi! I'm hyewon"),
+        ("first-id", "12345", "hi@handong.edu", "hello", "Korean", "Hi! I'm hello"),
+        ("english_id", "abcde", "hello@naver.com", "name_abc", "English", "Hello world"),
+        ("math", "xyz123", "mathlove@naver.com", "math_name", "Korean", "Hi! i love math"),
+        ("cs_love", "helloworld", "cs@handong.edu", "cs_lover", "Korean", "hello, world"),]
+mycursor.executemany(sqlFormula, users)
+
+sqlFormula = "INSERT INTO Board (Board_ID, Team_ID, User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+boards =[(1, 1, -1, "First Board", "Yes", "Yes", True, "Private"),
+         (2, -1, 1, "Second Board", "Yes", "Yes", False, "Public"),]
+mycursor.executemany(sqlFormula, boards)
+
+mydb.commit()
