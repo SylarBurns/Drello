@@ -40,6 +40,7 @@ boardMember= """CREATE TABLE BoardMember(
 )"""
 List = """CREATE TABLE List (
    List_ID int NOT NULL AUTO_INCREMENT,
+   List_Title varchar(128) NOT NULL,
    Board_ID int NOT NULL,
    Position int NOT NULL,
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
@@ -89,7 +90,7 @@ Notice="""CREATE TABLE Notice (
 Watch="""CREATE TABLE Watch(
    User_ID int NOT NULL,
    ID_type varchar(10) NOT NULL,
-   ID int NOT NULL, 
+   ID int NOT NULL,
    Mark BOOLEAN DEFAULT false,
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
