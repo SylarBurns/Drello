@@ -21,7 +21,7 @@ user = """CREATE TABLE User(
 	PRIMARY KEY(User_ID)
 )"""
 
-board = """CREATE TABLE Board (
+board_table_create_sql = """CREATE TABLE Board (
     Board_ID int NOT NULL AUTO_INCREMENT,
     Team_ID int DEFAULT -1,
     User_ID varchar(32) DEFAULT NULL,
@@ -33,7 +33,7 @@ board = """CREATE TABLE Board (
     PRIMARY KEY (Board_ID)
 )"""
 
-boardMember= """CREATE TABLE BoardMember(
+boardMember_table_create_sql = """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
     User_ID int NOT NULL,
     Permission varchar(16) NOT NULL,
@@ -82,7 +82,7 @@ Activity="""CREATE TABLE Activity(
    DateTime TIMESTAMP,
    FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE,
    FOREIGN KEY (List_ID) REFERENCES List(List_ID) ON UPDATE CASCADE,
-   FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
+   FOREIGN KEY (Card_ID) REFERENCES Card(Board_ID) ON UPDATE CASCADE,
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Activity_ID)
 )"""
@@ -136,6 +136,7 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
+# sql_list = [user, board_table_create_sql, boardMember_table_create_sql, List, Label, Card, Activity, Notice, Watch, CheckList, Comment, Attachment]
 
 Team ="""CREATE TABLE Team(
    Team_ID int NOT NULL AUTO_INCREMENT,
@@ -157,7 +158,7 @@ TeamMember = """CREATE TABLE TeamMember(
    FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
 )"""
 
-sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
+# sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
 for sql in sql_list:
     mycursor.execute(sql)
 
