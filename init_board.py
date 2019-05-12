@@ -170,9 +170,10 @@ users =[("hyeon-62", "123123", "21700646@handong.edu", "hyewon", "Korean", "Hi! 
         ("cs_love", "helloworld", "cs@handong.edu", "cs_lover", "Korean", "hello, world"),]
 mycursor.executemany(sqlFormula, users)
 
-sqlFormula = "INSERT INTO Board (Board_ID, Team_ID, User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-boards =[(1, 1, -1, "First Board", "Yes", "Yes", True, "Private"),
-         (2, -1, 1, "Second Board", "Yes", "Yes", False, "Public"),]
+sqlFormula = "INSERT INTO Board (User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
+boards =[(1, "First Board", "Yes", "Yes", True, "Private"),
+         (1, "Second Board", "Yes", "Yes", False, "Public"),
+         (2, "last Board", "Yes", "Yes", False, "Public"),]
 mycursor.executemany(sqlFormula, boards)
 
 mydb.commit()
