@@ -2,8 +2,9 @@ import mysql.connector
 from Specific_Card import *
 import os
 
-def ListofLists(in_board, curr_cursor, curr_user) :
+def ListofLists(in_board, curr_user, my_db) :
     while(1) :
+        curr_cursor = my_db.cursor()
         os.system('cls' if os.name == 'nt' else 'clear')
         print("========================================")
         print("1. List up all list in board")
@@ -35,7 +36,7 @@ def ListofLists(in_board, curr_cursor, curr_user) :
             #curr_cursor.execute(sql_query)
             #my_result = curr_cursor.fetchall()
 
-            SpecificList(get_list_id, curr_cursor, curr_user)
+            SpecificList(get_list_id, curr_user, my_db)
             print("printing done") # temp
 
         elif answer == "3" :
@@ -84,8 +85,9 @@ def ListofLists(in_board, curr_cursor, curr_user) :
             print("Invalid answer.")
 
 
-def SpecificList(in_list, curr_cursor, curr_user) :
+def SpecificList(in_list, curr_user, my_db) :
     while(1) :
+        curr_cursor =  my_db.cursor() 
         os.system('cls' if os.name == 'nt' else 'clear')
         print("========================================")
         print("1. Show list's information.")
@@ -112,7 +114,7 @@ def SpecificList(in_list, curr_cursor, curr_user) :
             get_list_id = input("Give a cards's id")
             # find specific list's information from sql..
             # 정보만 보여줄지 바로 함수로 타고 들어갈지 결정
-            chosen_card = Specific_Card_Manager(get_list_id, curr_cursor, curr_user) # cursor
+            chosen_card = Specific_Card_Manager(get_list_id, curr_user, my_db) # cursor
             print("printing done") # temp
 
         elif answer == "3" :
