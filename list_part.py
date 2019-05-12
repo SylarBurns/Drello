@@ -1,9 +1,11 @@
+import mysql.connector
 from Specific_Card import *
 import os
 
-def ListofLists(in_board, curr_cursor) :
+def ListofLists(in_board, curr_cursor, curr_user) :
     while(1) :
         os.system('cls' if os.name == 'nt' else 'clear')
+        print("========================================")
         print("1. List up all list in board")
         print("2. Search specific list")
         print("3. Add new list")
@@ -13,19 +15,27 @@ def ListofLists(in_board, curr_cursor) :
         print("7. Move specific list to another board")
         print("8. Copy specific list in this board")
         print("9. Back to board")
+        print("========================================")
         answer = input()
 
         if answer == "1" :
-            # 해당 board id를 가지는 모든 list 가져와서 list에 담고 position 순서대로 sorting 해서 출력하기
-            # list에 담았을 때 position 순서대로 솔팅해서 주는 함수 하나 있으면 좋을듯
-            print("printing done") # temp
+            sql_query = "SELECT * FROM List WHERE Board_id = %d ORDER BY Position" % in_board
+            curr_cursor.execute(sql_query)
+            my_result = curr_cursor.fetchall()
+                
+            for row in my_result :
+                print("%2d | List ID : %5d, List Title : %s"%(row[3], row[0], row[1]))
 
         elif answer == "2" :
             get_list_id = input("Give a list's id")
             # find specific list's information from sql..
             # print out information
-            # 지금은 바로 함수 타고 들어가는 건데 이렇게 할지 아니면 정보만 보여주고 다른거 더 만들지 결정
-            SpecificList(get_list_id, curr_cursor)
+            # 없으면 어떻게 할지
+            #sql_query = "SELECT * FROM List WHERE Board_id = %d ORDER BY Position" % in_board
+            #curr_cursor.execute(sql_query)
+            #my_result = curr_cursor.fetchall()
+
+            SpecificList(get_list_id, curr_cursor, curr_user)
             print("printing done") # temp
 
         elif answer == "3" :
@@ -74,9 +84,10 @@ def ListofLists(in_board, curr_cursor) :
             print("Invalid answer.")
 
 
-def SpecificList(in_list, curr_cursor) :
+def SpecificList(in_list, curr_cursor, curr_user) :
     while(1) :
         os.system('cls' if os.name == 'nt' else 'clear')
+        print("========================================")
         print("1. Show list's information.")
         print("2. Search cards")
         print("3. Watch the list / Disable the watch")
@@ -88,6 +99,7 @@ def SpecificList(in_list, curr_cursor) :
         print("9. Move specific card to another list")
         print("10. Copy specific card in this list")
         print("11. Back to list")
+        print("========================================")
         answer = input()
 
         if answer == "1" :
@@ -100,7 +112,7 @@ def SpecificList(in_list, curr_cursor) :
             get_list_id = input("Give a cards's id")
             # find specific list's information from sql..
             # 정보만 보여줄지 바로 함수로 타고 들어갈지 결정
-            chosen_card = Specific_Card_Manager(get_list_id, curr_cursor) # cursor
+            chosen_card = Specific_Card_Manager(get_list_id, curr_cursor, curr_user) # cursor
             print("printing done") # temp
 
         elif answer == "3" :
