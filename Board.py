@@ -1,6 +1,7 @@
 # Board.py
 # import mysql.connector
 import Board_Specific
+import Menu
 import os
 # mydb = mysql.connector.connect(
 #     host ='localhost',
@@ -79,6 +80,7 @@ class Board_Manager:
                 self.board_delete()
             elif choice == 4:
                 print("return to previous view")
+                Menu.Menu(self.mycursor , self.user_ID)
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
 
