@@ -1,4 +1,4 @@
-from list_part import *
+# from list_part import *
 import os
 
 class Specific_Board_Manager:
@@ -22,7 +22,7 @@ class Specific_Board_Manager:
     def lists(self):
         print("Entering the list of lists")
         dummy_list = 1
-        ListofLists(dummy_list, self.mycursor)
+        # ListofLists(dummy_list, self.mycursor)
     def board_notice(self):
         myresult = [('firstNotice', 1), ('secondNotice', 2), ('thirdNotice', 3)]
         for (content, ID) in myresult:

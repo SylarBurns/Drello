@@ -14,7 +14,7 @@ import os
 # 	PRIMARY KEY(User_ID)
 # )"""
 
-def start(cursor):
+def start(cursor, db):
     # cursor.execute(usersql)
 
     print("--------- Welcome Drello -----------")
@@ -25,24 +25,24 @@ def start(cursor):
 
     if choice == 1:
         os.system('cls' if os.name == 'nt' else 'clear')
-        login(cursor)
+        login(cursor, db)
         
     elif choice == 2:
         os.system('cls' if os.name == 'nt' else 'clear')
-        join(cursor)
+        join(cursor, db)
     else :
         print("다시 입력해주세요.")
         os.system('cls' if os.name == 'nt' else 'clear')
-        start(cursor)
+        start(cursor, db)
 
-def login(cursor):
+def login(cursor, db):
     print("login")
     user_ID = 000
-    Menu.Menu(cursor , user_ID)
+    Menu.Menu(cursor , user_ID, db)
 
-def join(cursor):
+def join(cursor, db):
     print("join")
     print("auto login")
     user_ID = 111
-    Menu.Menu(cursor , user_ID)
+    Menu.Menu(cursor , user_ID, db)
 

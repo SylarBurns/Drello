@@ -11,7 +11,7 @@ mycursor = mydb.cursor()
 create_database = "CREATE DATABASE Drello"
 
 user = """CREATE TABLE User(
-	User_ID int NOT NULL,
+	User_ID int NOT NULL AUTO_INCREMENT,
 	User_PW varchar(32) NOT NULL,
 	User_Email varchar(64) NOT NULL,
 	User_Name varchar(16) NOT NULL,
@@ -35,6 +35,7 @@ board = """CREATE TABLE Board (
 boardMember= """CREATE TABLE BoardMember(
     Board_ID int NOT NULL,
     User_ID int NOT NULL,
+    Permission varchar(16) NOT NULL,
     CONSTRAINT board_member UNIQUE (Board_ID, User_ID),
     FOREIGN KEY (Board_ID) REFERENCES Board(Board_ID) ON UPDATE CASCADE
 )"""
