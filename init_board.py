@@ -124,7 +124,27 @@ Attachment="""CREATE TABLE Attachment(
    FOREIGN KEY (Card_ID) REFERENCES Card(Card_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Attachment_ID)
 )"""
-sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment]
+Team ="""CREATE TABLE Team(
+   Team_ID int NOT NULL AUTO_INCREMENT,
+   Name varchar(64) NOT NULL,
+   ShortName varchar(64),
+   Website varchar(64),
+   Description varchar(512),
+   Visibility varchar(128),
+   Is_deleted BOOLEAN DEFAULT false,
+   PRIMARY KEY (Team_ID)
+)"""
+
+TeamMember = """CREATE TABLE TeamMember(
+   Team_ID int NOT NULL,
+   User_ID int NOT NULL,
+   Permission varchar(16) NOT NULL,
+   CONSTRAINT board_member UNIQUE (Team_ID, User_ID),
+   FOREIGN KEY (Team_ID) REFERENCES Team(Team_ID) ON UPDATE CASCADE,
+   FOREIGN KEY (User_ID) REFERENCES User(User_ID) ON UPDATE CASCADE
+)"""
+
+sql_list = [user, board, boardMember, List, Card, Activity, Label, Notice, Watch, CheckList, Comment, Attachment, Team, TeamMember]
 for sql in sql_list:
     mycursor.execute(sql)
 
