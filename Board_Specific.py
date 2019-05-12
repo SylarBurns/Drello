@@ -1,4 +1,5 @@
 from list_part import *
+import os
 
 class Specific_Board_Manager:
     def __init__(self, new_Board_ID, new_cursor):
@@ -32,11 +33,12 @@ class Specific_Board_Manager:
     def board_notice_check(self, choice):
         print("Marking notice",self.Notice_list[choice],"as checked")
     def start(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Let's get this party started!")
         choice = 0
         while(choice != 4):
             self.board_info()
-            print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back\n------------\nYour Notices\n------------")
+            print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back\n------------\nYour Notices\n------------\n")
             self.board_notice();
             choice = input("Enter the number for your choice: ")
             choice = int(choice)
@@ -52,4 +54,5 @@ class Specific_Board_Manager:
                 self.board_notice_check(choice)
             else:
                 print("Wrong choice! please enter again")
+                os.system('cls' if os.name == 'nt' else 'clear')
 

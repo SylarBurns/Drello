@@ -2,6 +2,7 @@
 import mysql.connector
 import Menu
 import Board
+import os
 
 class Team:
     def __init__(self, cursor , user_ID):
@@ -15,6 +16,7 @@ class Team:
         # avengers
         # drello
         # DB
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("----------teamlist---------")
         print("1. avengers")
         print("2. Drello")
@@ -37,6 +39,7 @@ class Team:
         
 
     def selectTeam(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("-----------Team : avengers ------------")
         print("1. Edit team profile")
         print("2. Team's Boards")
@@ -62,6 +65,7 @@ class Team:
             self.selectTeam()
 
     def editTeamProfile(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("------------Team Profile------------")
         print("1. Name : Avengers")
         print("2. Description(optional) : ~~~~~")
@@ -84,6 +88,7 @@ class Team:
     def teamsBoard(self):
         BOARD = Board.Board_Manager(self.user_ID, self.cursor)
 
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("----------Team's Board------------")
         BOARD.board_list()
         print("----------------------------------")
@@ -113,6 +118,7 @@ class Team:
             self.NormalUser()
 
     def teamMemberList(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("-------Members Of Team Boards--------")
         print("UserName @UserID (Normal/Admin)")
         print("HyeWon @hyewon43 (Normal)")
@@ -121,6 +127,7 @@ class Team:
         print("-------------------------------------")
 
     def AdminUser(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Change Members's Permissions")
         print("2. Remove Other User")
         print("3. Invite Team Members")
@@ -142,6 +149,7 @@ class Team:
         self.AdminUser()
 
     def NormalUser(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("1. Leave Team")
         print("2. Search User by name")
         print("3. Back")

@@ -2,6 +2,7 @@
 # coding: utf-8
 import mysql.connector
 import Menu
+import os
 
 # usersql = """CREATE TABLE User(
 # 	User_ID int NOT NULL,
@@ -23,12 +24,15 @@ def start(cursor):
     choice = int(input("Enter the number for your choice: "))
 
     if choice == 1:
+        os.system('cls' if os.name == 'nt' else 'clear')
         login(cursor)
         
     elif choice == 2:
+        os.system('cls' if os.name == 'nt' else 'clear')
         join(cursor)
     else :
         print("다시 입력해주세요.")
+        os.system('cls' if os.name == 'nt' else 'clear')
         start(cursor)
 
 def login(cursor):
