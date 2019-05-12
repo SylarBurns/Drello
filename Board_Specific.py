@@ -2,7 +2,7 @@ from list_part import *
 import os
 
 class Specific_Board_Manager:
-    def __init__(self, new_Board_ID, new_cursor, db):
+    def __init__(self, new_Board_ID, new_cursor):
         self.Board_ID = new_Board_ID
         self.mycursor = new_cursor
         self.db = db

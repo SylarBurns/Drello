@@ -16,5 +16,5 @@ cursor = db.cursor()
 import Login
 
 if __name__ == "__main__":
-    Login.start(cursor, db)
+    Login.start(cursor)
 

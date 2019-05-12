@@ -12,7 +12,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 class Board_Manager:
-    def __init__(self, new_user_ID, new_cursor, db):
+    def __init__(self, new_user_ID, new_cursor):
         self.user_ID = new_user_ID
         self.count = 5
         self.mycursor = new_cursor

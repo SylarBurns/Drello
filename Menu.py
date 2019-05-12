@@ -40,7 +40,7 @@ class Menu :
         
     def logout(self):
         print("logout")
-        Login.start(self.cursor, db)
+        Login.start(self.cursor)
     
     def start(self):
         self.menu()
