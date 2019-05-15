@@ -237,4 +237,4 @@ class Team:
     def start(self):
         self.teamlist()
 
-Team(db, cursor , user_ID)
+# Team(db, cursor , user_ID)
