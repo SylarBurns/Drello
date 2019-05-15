@@ -1,11 +1,22 @@
-
 import mysql.connector
 import Menu
 # import Board
 import os
 
+db = mysql.connector.connect(
+  host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
+  port=3306,
+  user="gyqls",
+  passwd="rnjssmdsoRj1",
+  database = "Drello"
+)
+cursor = db.cursor()
+user_ID = 1
+
+
 class Team:
-    def __init__(self, cursor , user_ID):
+    def __init__(self, db, cursor , user_ID):
+        self.db = db
         self.cursor = cursor   
         self.user_ID = user_ID
         self.team_ID = 0
@@ -13,20 +24,27 @@ class Team:
         
     def teamlist(self):
         # 속한 팀 보여주기
-        # avengers
-        # drello
-        # DB
         os.system('cls' if os.name == 'nt' else 'clear')
         print("----------teamlist---------")
-        print("1. avengers")
-        print("2. Drello")
+
+        sql = "select T.Team_ID, T.Name \
+                from Team as T\
+                JOIN TeamMember as TM\
+                ON T.Team_ID = TM.Team_ID \
+                WHERE TM.User_ID = '%d'" % self.user_ID
+        self.cursor.execute(sql)
+        teams = self.cursor.fetchall()
+
+        for (team_ID, team_name) in teams :
+            print(str(team_ID) + " . " + team_name)
+
         print("---------------------------")
         print("+ : Create Team")
         print("0 : Back to Menu")
 
         choice = input("Enter Team number : ")
         if(choice == "0"):
-            Menu.Menu(self.cursor , self.user_ID)
+            Menu.Menu(self.db, self.cursor , self.user_ID)
         elif(choice == "+"):
             self.createTeam()
         elif(int(choice) <= 2 and int(choice) !=0):
@@ -40,7 +58,12 @@ class Team:
 
     def selectTeam(self):
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("-----------Team : avengers ------------")
+
+        sql = "Select Name from Team WHERE Team_ID = '%s'" % self.team_ID
+        self.cursor.execute(sql)
+        team_name = self.cursor.fetchall()
+        
+        print("\n-----------Team : %s ------------" % team_name[0][0])
         print("1. Edit team profile")
         print("2. Team's Boards")
         print("3. Team's Members")
@@ -66,11 +89,18 @@ class Team:
 
     def editTeamProfile(self):
         os.system('cls' if os.name == 'nt' else 'clear')
+
+        sql = "Select * from Team WHERE Team_ID = '%s'" % self.team_ID
+        self.cursor.execute(sql)
+        team = self.cursor.fetchall()
+
         print("------------Team Profile------------")
-        print("1. Name : Avengers")
-        print("2. Description(optional) : ~~~~~")
-        print("3. private")
-        print("4. Back")
+        print("1. Name : %s" % team[0][1] ) 
+        print("2. ShortName : %s" %team[0][2])
+        print("3. Website : %s" %team[0][3])
+        print("4. Description(optional) : %s" % team[0][4]) 
+        print("5. private" )
+        print("6. Back")
         print("------------------------------------")
         choice = int(input("Enter Number you want to edit: "))
         if(choice == 1):
@@ -169,10 +199,35 @@ class Team:
     def SearchUser(self):
         print("search user")
 
+    
     def createTeam(self):
         # name, description(optional)
-        print("createTeam (만들었다 가정하고 team specific으로 이동)")
-        team_id = 1
+        Name = "OSS team"
+        Description = "cheers!"
+        Visibility = "Y"
+        print("\n\n-----------Create Team----------")
+        print("Name : %s" % Name)
+        print("Description : %s" %Description)
+        print("--------------------------------")
+        
+        sql = "INSERT INTO \
+            Team(Name, Description, Visibility)\
+            VALUES('%s','%s', '%s')" %(Name, Description, Visibility)
+        
+        self.cursor.execute(sql)
+        self.db.commit()
+        self.cursor.execute("SELECT LAST_INSERT_ID()") 
+        team_id = cursor.fetchall()
+        self.team_id = team_id[0][0]
+
+        sql = "INSERT INTO \
+            TeamMember(Team_ID, User_ID, Permission)\
+            VALUES('%d', '%d', '%s')" % (self.team_id, self.user_ID, 'Y')
+        self.cursor.execute(sql)
+        self.db.commit()
+
+        print("*Successfully Create Team into the [Team] TABLE!*")
+        input("\n\nPlease Enter to go to NEXT ! :")
         self.selectTeam()
 
     def deleteTeam(self):
@@ -182,3 +237,4 @@ class Team:
     def start(self):
         self.teamlist()
 
+Team(db, cursor , user_ID)

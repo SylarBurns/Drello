@@ -25,7 +25,7 @@ class Menu :
             
     def user(self):
         print("SQL about user")
-        User.User(self.cursor , self.user_ID)
+        User.User(self.db, self.cursor , self.user_ID)
         
     def team(self):
         print("SQL about team")
