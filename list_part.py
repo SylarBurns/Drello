@@ -9,16 +9,15 @@ def ListofLists(in_board, my_db, curr_user) :
         os.system('cls' if os.name == 'nt' else 'clear')
         print("============= List of Lists ============")
         print("1. List up all list in board")
-        print("2. Search specific list")
+        print("2. Enter a specific list")
         print("3. Create new list")
         print("4. Delete list")
         print("5. Change list's position")
         print("6. Move specific list to another board")
         print("7. Copy specific list in this board")
         print("========================================")
-        print("[0] to back to Board\n")
-        print("Give a number. : ")
-        answer = input()
+        print("[0] to back to Board")
+        answer = input("Give a number. : ")
 
         if answer == "1" :
             sql_query = "SELECT * FROM List WHERE Board_id = %d ORDER BY Position" % in_board
@@ -28,6 +27,8 @@ def ListofLists(in_board, my_db, curr_user) :
             for row in my_result :
                 if row[4] == 'N' :
                     print("%2d | List ID : %-3d   List Title : %s"%(row[3], row[0], row[1]))
+
+            input("Enter to continue ...")
 
         elif answer == "2" :
             get_list_id = int(input("Give a list's id : "))
@@ -41,6 +42,8 @@ def ListofLists(in_board, my_db, curr_user) :
                 print("The list has been deleted.") # 
             else :
                 SpecificList(get_list_id, my_db, curr_user)
+
+            input("Enter to continue ...")
 
         elif answer == "3" :
             curr_name = input("Give a new list's name : ")
@@ -64,7 +67,7 @@ def ListofLists(in_board, my_db, curr_user) :
             curr_cursor.execute(sql_query)
             my_result2 = curr_cursor.fetchone()
 
-            activity_str = "Created list %s on %s" % (curr_name, my_result2[0])
+            activity_str = "Created list '%s' on board '%s'" % (curr_name, my_result2[0])
             Activity_notice("LIST", my_result[0], curr_user, my_db, activity_str)
             input("Sucessfully saved.")
 
@@ -76,8 +79,10 @@ def ListofLists(in_board, my_db, curr_user) :
 
             if not my_result :
                 print("The list can not be found.")
+                input("Enter to continue ...")
             elif my_result[4]=='Y' :
                 print("The list has already been deleted.") 
+                input("Enter to continue ...")
             else :
                 sql_query = "UPDATE List SET Is_deleted = 'Y' WHERE List_id = %s" % get_list_id
                 curr_cursor.execute(sql_query)
@@ -88,7 +93,7 @@ def ListofLists(in_board, my_db, curr_user) :
                 sql_query = "SELECT Board_Title FROM Board WHERE Board_ID = %d" % in_board
                 curr_cursor.execute(sql_query)
                 my_result2 = curr_cursor.fetchone()
-                activity_str = "Deleted list %s from board %s" % (my_result[1], my_result2[0])
+                activity_str = "Deleted list '%s' from board '%s'" % (my_result[1], my_result2[0])
                 Activity_notice("LIST", int(get_list_id), curr_user, my_db, activity_str)
                 input("Sucessfully deleted.")
 
@@ -120,8 +125,9 @@ def ListofLists(in_board, my_db, curr_user) :
                 print("Nothing Changed.")
                 
             my_db.commit()
-            activity_str = "Changed list %s's position to %d" % (my_result[1], int(get_list_position))
+            activity_str = "Changed list '%s' position to %d" % (my_result[1], int(get_list_position))
             Activity_notice("LIST", int(get_list_id), curr_user, my_db, activity_str)
+            input("Enter to continue ...")
 
         elif answer == "6" :
             get_list_id = input("Move list ID : ")
@@ -164,8 +170,10 @@ def ListofLists(in_board, my_db, curr_user) :
                 my_result = curr_cursor.fetchone()
                 new_board_title = my_result[0]
 
-                activity_str = "Moved list %s from %s to %s" % (act_list_title, old_board_title, new_board_title)
+                activity_str = "Moved list '%s' from '%s' to '%s'" % (act_list_title, old_board_title, new_board_title)
                 Activity_notice("LIST", int(get_list_id), curr_user, my_db, activity_str)
+            
+            input("Enter to continue ...")
 
         elif answer == "7" :
             get_list_id = input("Give a list id : ")
@@ -175,6 +183,7 @@ def ListofLists(in_board, my_db, curr_user) :
             my_result = curr_cursor.fetchall()
             if not my_result :
                 print("The list can not be found.")
+                input("Enter to continue ...")
             else :
                 token = my_result[0][1][-1]
                 if token.isdigit() :
@@ -197,11 +206,10 @@ def ListofLists(in_board, my_db, curr_user) :
                 result = curr_cursor.fetchone()
                 board_title = result[0]
 
-                activity_str = "Copied list %s on %s" % (my_result[0][1], board_title)
+                activity_str = "Copied list '%s' on board '%s'" % (my_result[0][1], board_title)
                 Activity_notice("LIST", int(get_list_id), curr_user, my_db, activity_str)
 
                 input("Sucessfully saved.")
-                
 
         elif answer == "0" :
             break
@@ -216,7 +224,7 @@ def SpecificList(in_list, my_db, curr_user) :
         os.system('cls' if os.name == 'nt' else 'clear')
         print("================= List =================")
         print("1. Show list's information.")
-        print("2. Search cards")
+        print("2. Enter a specific cards")
         print("3. Watch the list / Disable the watch")
         print("4. Notifications")
         print("5. Edit list's information")
@@ -228,15 +236,16 @@ def SpecificList(in_list, my_db, curr_user) :
         print("11. Move specific card to another list")
         print("12. Copy specific card in this list")
         print("========================================")
-        print("[0] Back to lists of list.\n")
-        print("Give the number. : ")
-        answer = input()
+        print("[0] Back to lists of list.")
+        answer = input("Give the number. : ")
 
         if answer == "1" :
-            sql_query = "SELECT * FROM List WHERE List_ID = %s" % in_list
+            sql_query = """SELECT List.List_Title, Board.Board_Title FROM List, Board 
+                            WHERE List.List_ID = %s AND List.Board_ID=Board.Board_ID AND List.Is_deleted='N'""" % in_list
             curr_cursor.execute(sql_query)
             my_result = curr_cursor.fetchone()
-            print("List ID : %d  | Title : %s From board %s" % (in_list, my_result[1], my_result[2]))
+            print("List ID : %d  | Title : %s From board '%s'" % (in_list, my_result[0], my_result[1]))
+            input("Enter to continue ...")
 
         elif answer == "2" :
             get_card_id = int(input("Give a cards's id : "))
@@ -265,40 +274,49 @@ def SpecificList(in_list, my_db, curr_user) :
                 input_query = [(curr_user, "LIST", in_list),]
                 curr_cursor.executemany(sql_query, input_query)
                 
-                activity_str = "Watched the list %s" % (input_result[1])
+                activity_str = "Watched the list '%s'" % (input_result[1])
                 Activity_notice("LIST", in_list, curr_user, my_db, activity_str)
-                print()
+                input(activity_str)
             elif input_result[4] == 'Y' :
                 print("The list has been deleted.")
             else :
                 sql_query = "DELETE FROM Watch WHERE User_ID=%s AND ID_Type='LIST' AND ID=%d" % (curr_user, in_list)
                 curr_cursor.execute(sql_query)
 
-                activity_str = "Disabled watch list %s" % (input_result[1])
+                activity_str = "Disabled watch list '%s'" % (input_result[1])
                 Activity_notice("LIST", in_list, curr_user, my_db, activity_str)
+                input(activity_str)
 
             my_db.commit()
 
         elif answer == "4" :
             sql_query = """SELECT Activity.DateTime, Activity.Action FROM Activity, Notice 
                             WHERE Activity.User_ID=Notice.User_ID AND Activity.Activity_ID=Notice.Activity_ID
-                            AND Activity.List_ID=%d ORDER BY Activity.DateTime DESC""" % in_list
+                            AND Activity.List_ID=%d AND Notice.Is_read='N' ORDER BY Activity.DateTime DESC""" % in_list
             curr_cursor.execute(sql_query)
             my_result = curr_cursor.fetchall()
-
+            if not my_result :
+                print("There is no new nofitications.")
+                
             for row in my_result :
                 print("%s | %s" % (row[0], row[1]))
+            
+            sql_query = "UPDATE Notice SET Is_read='Y' WHERE User_ID=%d AND Is_read='N'" % curr_user
+            curr_cursor.execute(sql_query)
+
+            input("Enter to continue ...")
 
         elif answer == "5" : 
             new_list_title = input("Give new list title : ")
-            sql_query = "UPDATE List SET List_Title=%s WHERE List_ID=%d" % (new_list_title, in_list)
+            sql_query = "UPDATE List SET List_Title='%s' WHERE List_ID=%d" % (new_list_title, in_list)            
             curr_cursor.execute(sql_query)
             
-            activity_str = "Edited list %s's title" % (new_list_title)
+            activity_str = "Edited list '%s' title" % (new_list_title)
             Activity_notice("LIST", in_list, curr_user, my_db, activity_str)
+            input("Enter to continue ...")
         
         elif answer == "6" :
-            order = input("1 for increasing / 2 for decreasing")
+            order = input("1 for increasing / 2 for decreasing : ")
             if order == "1" :
                 sql_query = "SELECT * FROM Card WHERE List_ID = %d ORDER BY Position" % in_list
             elif order == "2" :
@@ -310,13 +328,15 @@ def SpecificList(in_list, my_db, curr_user) :
 
             for row in my_result :
                 print("Card ID : %2d | Title : %s" % (row[0], row[3]))
-                print("Description : %s\n" % row[5])
+                print("Description : %s" % row[5])
                 if row[6] :
                     print("Due Date : %s" % row[6])
-                print("Member : %s" % row[8])
+                print("Member : %s\n" % row[7])
+
+            input("\nEnter to continue ...")
 
         elif answer == "7" :
-            order = input("1 for increasing / 2 for decreasing")
+            order = input("1 for increasing / 2 for decreasing : ")
             if order == "1" :
                 sql_query = "SELECT * FROM Card WHERE List_ID = %d ORDER BY Description" % in_list
             elif order == "2" :
@@ -331,7 +351,9 @@ def SpecificList(in_list, my_db, curr_user) :
                 print("Description : %s" % row[5])
                 if row[6] :
                     print("Due Date : %s" % row[6])
-                print("Member : %s" % row[8])
+                print("Member : %s\n" % row[7])
+
+            input("\nEnter to continue ...")
 
         elif answer == "8" :
             card_title = input("Give a card name : ")
@@ -349,9 +371,9 @@ def SpecificList(in_list, my_db, curr_user) :
                 result = curr_cursor.fetchone()
                 member_str = result[0]
             else : # team owes board
-                sql_query = """SELECT User.User_Name FROM User, BoardMember 
-                                WHERE User.User_ID=BoardMember.User_ID AND Board_ID=%d
-                                AND User.Is_deleted='N' AND BoardMember.Is_deleted='N'""" % board_id
+                sql_query = "SELECT User.User_Name FROM User, BoardMember \
+                                WHERE User.User_ID=BoardMember.User_ID AND Board_ID=%d \
+                                AND User.Is_deleted='N' AND BoardMember.Is_deleted='N'" % board_id
                 curr_cursor.execute(sql_query)
                 my_result = curr_cursor.fetchall()
                 tmp = [row[0] for row in my_result]
@@ -375,6 +397,8 @@ def SpecificList(in_list, my_db, curr_user) :
             my_result = curr_cursor.fetchone()
             activity_str = "Created card %s on list %s" % (card_title, my_result[0])
             Activity_notice("CARD", card_id, curr_user, my_db, activity_str)
+            
+            input("Enter to continue ...")
 
         elif answer == "9" :
             get_card_id = input("Give card's id that you want to delete. : ")
@@ -401,6 +425,7 @@ def SpecificList(in_list, my_db, curr_user) :
                 Activity_notice("CARD", int(get_card_id), curr_user, my_db, activity_str)
 
                 input("Sucessfully deleted.")
+            input("Enter to continue ...")
 
         elif answer == "10" : # change positions
             get_card_id = input("Give a card's id you want change position : ")
@@ -433,6 +458,7 @@ def SpecificList(in_list, my_db, curr_user) :
             my_db.commit()
             activity_str = "Changed card %s's position to %d" % (my_result[1], get_card_position)
             Activity_notice("CARD", int(get_card_id), curr_user, my_db, activity_str)
+            input("Enter to continue ...")
 
 
         elif answer == "11" :
@@ -468,10 +494,12 @@ def SpecificList(in_list, my_db, curr_user) :
                 sql_query = "SELECT List_Title FROM List WHERE List_ID=%s" % get_list_id
                 curr_cursor.execute(sql_query)
                 my_result = curr_cursor.fetchone()
-                new_board_title = my_result[0]
+                new_list_title = my_result[0]
 
                 activity_str = "Moved card %s from %s to %s" % (card_title, old_list_title, new_list_title)
                 Activity_notice("CARD", int(get_card_id), curr_user, my_db, activity_str)
+
+            input("Enter to continue ...")
 
         elif answer == "12" :
             get_card_id = input("Give a card id : ")
