@@ -1,7 +1,7 @@
 # Board.py
 import mysql.connector
 import Board_Specific
-# import Menu
+import Menu
 import os
 
 class Board_Manager:
@@ -68,6 +68,7 @@ class Board_Manager:
 
         self.db.commit()
     def board_delete_close(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         option = input("1 Close\n2 Delete\nEnter your option:")
         if option == "1":
             close_or_open = input("1 Close\n2 Reopen\nEnter your option:")
@@ -112,16 +113,20 @@ class Board_Manager:
     def board_search(self):
         os.system('cls' if os.name == 'nt' else 'clear')
         search_target = input("Enter the title of the board: ")
-        search_sql = """SELECT Board.Board_Title, Board.Board_ID FROM Board 
+        search_sql = """SELECT Board.Board_Title, Board.Board_ID FROM Board
         INNER JOIN BoardMember ON Board.Board_ID = BoardMember.Board_ID 
-        WHERE BoardMember.User_ID = %s AND Board.IsClosed = false AND Board.Board_title = %s""" 
+        WHERE BoardMember.User_ID = %s AND Board.Board_title = %s""" 
         self.mycursor.execute(search_sql,(self.user_ID, search_target))
         result = self.mycursor.fetchall()
         for (title, ID) in result:
             print(ID, title)
         
         Ans = input("Enter the number for the Board we want to access or 'no' to go back to previous page: ")
-        Board_id = int(Ans)
+        try:
+            Board_id = int(Ans)
+        except:
+            pass
+        
         if Ans != "no":
             try:
                 chosen_board = Board_Specific.Specific_Board_Manager(-1, Board_id, self.db, self.user_ID)
@@ -150,7 +155,7 @@ class Board_Manager:
                 self.board_delete_close()
             elif choice == 4:
                 print("return to previous view")
-                # Menu.Menu(self.mycursor , self.user_ID)
+                Menu.Menu(self.db, self.mycursor, self.user_ID)
             elif choice >= 5 and choice <= self.Max_Count:
                 self.board_specific(choice)
             else:

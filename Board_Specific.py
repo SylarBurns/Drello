@@ -88,6 +88,7 @@ class Specific_Board_Manager:
             Action = "Unchecked Watch for Board %s" % self.board_title
             Thanos.Activity_notice("BOARD", self.Board_ID, self.User_ID, self.db, Action)
         self.db.commit()
+        os.system('cls' if os.name == 'nt' else 'clear')
     def board_edit(self):    
         choice = 0
         while(choice != 8):
@@ -192,8 +193,8 @@ class Specific_Board_Manager:
                         Members_ID = ID_CSV.split(',')
                         for Login_ID in Members_ID:
                             #search the User with the User_ID and add them to the BoardMemeber table.
-                            sql = "SELECT User_ID FROM User WHERE Login_ID= %s AND is_deleted ='N'" 
-                            self.mycursor.execute(sql, (Login_ID))
+                            sql = "SELECT User_ID FROM User WHERE Login_ID= %s AND Is_deleted ='N'" 
+                            self.mycursor.execute(sql, (Login_ID,))
                             result = self.mycursor.fetchone()
                             if result is None:
                                 print("We can't find any user with "+ Login_ID)# When the User is not on our database
