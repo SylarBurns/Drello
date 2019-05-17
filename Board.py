@@ -3,13 +3,6 @@ import mysql.connector
 import Board_Specific
 # import Menu
 import os
-mydb = mysql.connector.connect(
-    host ='localhost',
-    user='root',
-    passwd='sylar475869*',
-    database="drello"
-)
-mycursor = mydb.cursor()
 
 class Board_Manager:
     def __init__(self, new_team_ID, db, new_user_ID):
@@ -43,11 +36,11 @@ class Board_Manager:
         # Email_CSV = input("\nE-mails of the members. Seperated by comma \nex) first@gmail.com,second@gamil.com,third@gamil.com\nEnter 'no' if you wnat to skip\nenter here: ")
         # Com_Perm = input("\nComment permission\nYou can choose from 1.Disabled 2.Members. \nEnter the number of your choice: ")
         if self.team_ID == -1: #Board is created by a User, not a team.
-            new_board = """INSERT into board (User_ID, Board_Title, CommentPerm, AddRmPerm, Visibility)
+            new_board = """INSERT into Board (User_ID, Board_Title, CommentPerm, AddRmPerm, Visibility)
                         Values ('%s', "AwesomeBoard3", "Members", "Members", "private")""" % self.user_ID
             self.mycursor.execute(new_board) #insert new tuple to the board table
 
-            board_member_admin = """INSERT into boardmember (Board_ID, User_ID, Permission)
+            board_member_admin = """INSERT into BoardMember (Board_ID, User_ID, Permission)
                                     Values (LAST_INSERT_ID(), '%s', 'Admin')""" % self.user_ID
             self.mycursor.execute(board_member_admin)##insert new tuple to the boardmember table 
 
@@ -69,7 +62,7 @@ class Board_Manager:
             #             self.mycursor.execute(board_member)
             #             print("adding a new User to the board with email "+email, Member_ID)
         else:#Board is created by a team.
-            new_board = """INSERT into board (Team_ID, Board_Title, CommentPerm, AddRmPerm, Visibility)
+            new_board = """INSERT into Board (Team_ID, Board_Title, CommentPerm, AddRmPerm, Visibility)
                     Values (%d, "AwesomeBoard", "Members", "Members", "private")""" % self.team_ID
             self.mycursor.execute(new_board) #insert new tuple to the board table
 

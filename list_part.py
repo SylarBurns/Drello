@@ -5,7 +5,7 @@ import os
 
 def ListofLists(in_board, my_db, curr_user) :
     while True :
-        curr_cursor = my_db.cursor()
+        curr_cursor = my_db.cursor(buffered=True)
         os.system('cls' if os.name == 'nt' else 'clear')
         print("============= List of Lists ============")
         print("1. List up all list in board")
@@ -212,7 +212,7 @@ def ListofLists(in_board, my_db, curr_user) :
 
 def SpecificList(in_list, my_db, curr_user) :
     while True :
-        curr_cursor =  my_db.cursor() 
+        curr_cursor =  my_db.cursor(buffered=True) 
         os.system('cls' if os.name == 'nt' else 'clear')
         print("================= List =================")
         print("1. Show list's information.")
@@ -249,7 +249,7 @@ def SpecificList(in_list, my_db, curr_user) :
             elif my_result[8] == 'Y' :
                 print("The card has been deleted.")
             else :
-                chosen_card = Specific_Card_Manager(get_card_id, my_db, curr_user) # cursor
+                chosen_card = Specific_Card_Manager(get_card_id, curr_user, my_db) # cursor
 
         elif answer == "3" :
             sql_query = "SELECT * FROM Watch WHERE User_ID=%d AND ID_Type='LIST' AND ID=%d" % (curr_user, in_list)
@@ -271,7 +271,7 @@ def SpecificList(in_list, my_db, curr_user) :
             elif input_result[4] == 'Y' :
                 print("The list has been deleted.")
             else :
-                sql_query = "DELETE FROM Watch WHERE User_ID=%s AND ID_Type=LIST AND ID=%d" % (curr_user, in_list)
+                sql_query = "DELETE FROM Watch WHERE User_ID=%s AND ID_Type='LIST' AND ID=%d" % (curr_user, in_list)
                 curr_cursor.execute(sql_query)
 
                 activity_str = "Disabled watch list %s" % (input_result[1])
@@ -291,7 +291,8 @@ def SpecificList(in_list, my_db, curr_user) :
 
         elif answer == "5" : 
             new_list_title = input("Give new list title : ")
-            sql_query = "UPDATE List SET List_Title=%s WHERE List_ID=%d" % (new_list_title, in_list)            curr_cursor.execute(sql_query)
+            sql_query = "UPDATE List SET List_Title=%s WHERE List_ID=%d" % (new_list_title, in_list)
+            curr_cursor.execute(sql_query)
             
             activity_str = "Edited list %s's title" % (new_list_title)
             Activity_notice("LIST", in_list, curr_user, my_db, activity_str)
