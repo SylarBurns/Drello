@@ -621,8 +621,8 @@ class Activity_List_Manager:
                 del_user = result[1]
                 if del_user == 'Y':
                     u_name = "Withdraw_User"
-                idx = action.rindex(' in list')
-                action = action[0:idx]
+                idx = action.rindex(' list')
+                action = action[0:idx - 3]
                 self.list[i] = (av_id, user_id, u_name, action, time)
                 i += 1
             return True
