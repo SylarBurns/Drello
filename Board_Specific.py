@@ -396,7 +396,7 @@ class Specific_Board_Manager:
         #select all notices with in this Board.
         # myresult = [('firstNotice', 1), ('secondNotice', 2), ('thirdNotice', 3)]
         if myresult is not None:
-            self.count = 5
+            self.count = 6
             for (Activity_ID, Login_ID, Action) in myresult:
                 print(self.count, Login_ID+" "+Action)
                 self.Notice_list[self.count] = Activity_ID #form a dictionary {count:Board_ID}
@@ -411,6 +411,10 @@ class Specific_Board_Manager:
         self.mycursor.execute(sql)
         self.db.commit()
         print("Marked notice",self.Notice_list[choice],"as read")
+    def board_notice_check_all(self):
+        sql = "UPDATE Notice SET Is_read = 'Y' WHERE Notice.User_ID = %d" % self.User_ID
+        self.mycursor.execute(sql)
+        self.db.commit()
     def start(self):
         os.system('cls' if os.name == 'nt' else 'clear')
         sql = "SELECT IsClosed From Board Where Board_ID = %d" % self.Board_ID
@@ -422,7 +426,7 @@ class Specific_Board_Manager:
             choice = 0
             while(choice != 4):
                 self.board_info()
-                print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back")
+                print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back\n5 Mark all notices as read")
                 self.board_notice();
                 if self.User_Perm == "Admin":
                     print("**You have the Admin Permission for this Board")
@@ -436,7 +440,9 @@ class Specific_Board_Manager:
                     self.board_edit()
                 elif choice == 4:
                     print("return to previous view")
-                elif self.count >= 5 and choice <= self.Max_Count:
+                elif choice == 5:
+                    self.board_notice_check_all()
+                elif self.count >= 6 and choice <= self.Max_Count:
                     self.board_notice_check(choice)
                 else:
                     print("Wrong input! Try Again")
