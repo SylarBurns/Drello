@@ -78,7 +78,7 @@ class Specific_Board_Manager:
         result = self.mycursor.fetchone()
         
         if result is None: #if there is no watch information
-            sql = "INSERT into watch (User_ID, ID_type, ID) VALUES (%d, 'BOARD', %d)" % (self.User_ID, self.Board_ID)
+            sql = "INSERT into Watch (User_ID, ID_type, ID) VALUES (%d, 'BOARD', %d)" % (self.User_ID, self.Board_ID)
             self.mycursor.execute(sql)
             Action = "Checked Watch for Board %s" % self.board_title
             Thanos.Activity_notice("BOARD", self.Board_ID, self.User_ID, self.db, Action)

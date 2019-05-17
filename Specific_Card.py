@@ -116,9 +116,9 @@ class Specific_Card_Manager:
         except:
             print("Edit Title error")
     def edit_description(self):
-        # 현재 카드의 Description을 HELLO, WORD로 변경
+        # 현재 카드의 Description을 HELLO, WORLD로 변경
         try:
-            modified = "HELLO, WORD"
+            modified = "HELLO, WORLD"
             sql = "UPDATE Card SET Description = '%s' WHERE Card_ID = %d" % (modified, self.card_ID)
             self.cursor.execute(sql)
             self.db.commit()
