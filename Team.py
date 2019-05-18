@@ -25,14 +25,14 @@ class Team:
     def teamlist(self):
         # 속한 팀 보여주기
         self.clear()
-        print("-----------------------------")
-        print("----------Team List----------")
-        print("-----------------------------")
+        # print("-----------------------------")
+        print("----------Your Team----------")
+        # print("-----------------------------")
         sql = "select T.Team_ID, T.Name \
                 from Team as T\
                 JOIN TeamMember as TM\
                 ON T.Team_ID = TM.Team_ID \
-                WHERE TM.User_ID = '%d' AND TM.Is_deleted = 'N'" % self.user_ID
+                WHERE TM.User_ID = '%d' AND TM.Is_deleted = 'N' AND T.Is_deleted = 'N'" % self.user_ID
                 
         self.cursor.execute(sql)
         teams = self.cursor.fetchall()
@@ -65,13 +65,13 @@ class Team:
         sql = "Select Name from Team WHERE Team_ID = '%s'" % self.team_ID
         self.cursor.execute(sql)
         team_name = self.cursor.fetchall()
-        print("-----------Team : %s ------------" % team_name[0][0])
+        print("--------Team : %s ---------" % team_name[0][0])
         print(" 1. Edit team profile")
         print(" 2. Team's Boards")
         print(" 3. Team's Members")
         print(" 4. Delete Team")
         print(" 5. Back")
-        print("---------------------------------------")
+        print("---------------------------------")
 
         choice = int(input(" Enter the number for your choice: "))
         if(choice == 1):
@@ -175,6 +175,7 @@ class Team:
             self.teamsBoard() 
 
     def teamsMember(self):
+        self.clear()
         sql = "SELECT U.User_Name, U.Login_ID, TM.Permission, TM.User_ID \
             FROM Team as T, TeamMember as TM, User as U \
             WHERE T.Team_ID = TM.Team_ID AND TM.User_ID = U.User_ID \
@@ -196,13 +197,14 @@ class Team:
         self.cursor.execute(sql)
         Normal_or_Admin = self.cursor.fetchall()
 
-        # if(Normal_or_Admin[0][0] == "Y"):
-        #     self.AdminUser(users)
-        # else :
-        #     self.NormalUser(users)
+        if(Normal_or_Admin[0][0] == "Y"):
+            self.AdminUser(users)
+        else :
+            self.NormalUser(users)
         self.AdminUser(users)
 
     def AdminUser(self, users) :
+        # self.teamsMember()
         print("------------------------------------------")        
         print(" 1 : Change Members's Permissions")
         print(" 2 : Remove Other User")
@@ -216,7 +218,8 @@ class Team:
         if(choice == "1"):
             if(len(users) == 1) :
                 print("\n You are the only member.\n" )
-                self.AdminUser(users)
+                input("\n\nEnter : ")
+                self.teamsMember()
             for i in range(len(users)):
                 if (users[i][3] == self.user_ID) :
                     hisNumber = i
@@ -239,16 +242,19 @@ class Team:
                     self.db.commit()
 
                     print("\n Update %s permission to %s\n" % (users[c-1][0], permission))
+                    input("\nEnter : ")
                     self.teamsMember()
                 elif(c == hisNumber+1) :
                     print("\n you can not change your permission.\n")
-                    self.AdminUser(users)
+                    input("\nEnter : ")
+                    self.teamsMember()
                 else :
                     print("wrong number. select again\n")
         elif(choice =="2"):
             if(len(users) == 1) :
                 print("\n You are the only member.\n" )
-                self.AdminUser(users)
+                input("\nEnter : ")
+                self.teamsMember()
             for i in range(len(users)):
                 if (users[i][3] == self.user_ID) :
                     hisNumber = i
@@ -261,24 +267,29 @@ class Team:
                     self.cursor.execute(sql)
                     self.db.commit()
                     print("\n Delete '%s' member\n" % users[c-1][0])
+                    input("\nEnter : ")
                     self.teamsMember()
                 elif (c ==hisNumber+1):
-                    print("\n You can not remove yourself. Select Leave Option.\n")
+                    print("\n You can not remove yourself.\n")
+                    input("\nEnter : ")
+                    self.teamsMember()
                 else :
                     print("\n wrong number. select again\n")
         elif(choice =="3"):
             self.InviteUser(users)
         elif(choice =="4"):
             self.SearchUser(users)
-            self.Admin(users)
+            input("\n\nEnter : ")
+            self.teamsMember()
         elif(choice == "5") :
             while(True):
                 answer = input("Do you want to leave this team? (Y/N) ")
                 if(answer.lower() == "y") :
-                    self.leaveTeam(users)
+                    self.leaveTeam()
                     break
                 elif(answer.lower() == "n") :
-                    self.AdminUser(users)  
+                    input("\n\nEnter : ")
+                    self.teamsMember()  
                     break
                 else :
                     print("wrong input") 
@@ -286,9 +297,12 @@ class Team:
             self.selectTeam()
         else:
             print("Wrong input. Enter again.")
-        self.AdminUser(users)
 
-    def leaveTeam():
+        input("\n\n Enter : ")
+        self.clear()
+        self.teamsMember()
+
+    def leaveTeam(self):
         sql = "UPDATE TeamMember Set Is_deleted = 'Y'\
         WHERE Team_ID = '%d' AND User_ID = '%d'" % (self.team_ID, self.user_ID)
         self.cursor.execute(sql)
@@ -296,6 +310,8 @@ class Team:
         self.teamlist()
 
     def NormalUser(self, users):
+        # self.clear()
+        # self.teamsMember
         print("------------------------------------------")  
         print(" 1. Leave Team")
         print(" 2. Search User by name")
@@ -304,18 +320,21 @@ class Team:
         choice = (input(" ( Normal )  Order : "))
         if(choice == "1"):
             answer = input("Do you want to leave this team? (Y/N) ")
-            if(answer == "Y") :
+            if(answer.lower() == "y") :
                 self.leaveTeam()
             else :
-                self.NormalUser(users)              
+                input("\n\nEnter : ")
+                self.teamsMember()              
         elif(choice =="2"):
             self.SearchUser(users)
-            self.NormalUser(users)
+            input("\nEnter : ")
+            self.teamsMember()
         elif(choice =="3"):
             self.selectTeam()
         else:
             print("Wrong input. Enter again.")
-            self.NormalUser(users)
+            input("\nEnter : ")
+            self.teamsMember()
 
     def InviteUser(self, users) :
         Email_Or_Name = input(" Enter Email Address or Name (yujin/이승윤/HyoBin/hyewon) : ")
@@ -383,31 +402,36 @@ class Team:
         self.cursor.execute("drop view Findusers")
         self.db.commit()
 
-        self.AdminUser(users)
+        input("\nEnter : ")
+        self.teamsMember()
 
     def SearchUser(self, users):
         name = input(" Filter by name : ")
         sql = "Select U.Login_ID, U.User_Name FROM User as U \
             JOIN TeamMember as TM ON TM.User_ID = U.User_ID\
             WHERE User_Name = '%s' AND TM.Team_ID = '%d'" % (name, self.team_ID)
+
         self.cursor.execute(sql)
         user = self.cursor.fetchall()
         
         if(user != []) :
             print("\n ● %s @%s \n" % (user[0][1], user[0][0]))
         else :
-            print(" No User \n")
+            print("\n No User \n")
 
         
     
     def createTeam(self):
         # name, description(optional)
+        self.clear()
         Name = "OSS team"
         Description = "cheers!"
         Visibility = "Y"
-        print("\n\n-----------Create Team----------")
-        print(" Name : %s" % Name)
-        print(" Description : %s" %Description)
+        print("-----------Create Team----------")
+        Name = input(" Name : ")
+        Description = input(" Description : ")
+        # print(" Name : %s" % Name)
+        # print(" Description : %s" %Description)
         print("--------------------------------")
         
         sql = "INSERT INTO \
@@ -416,26 +440,30 @@ class Team:
         
         self.cursor.execute(sql)
         self.db.commit()
-        self.cursor.execute("SELECT LAST_INSERT_ID()") 
-        team_id = cursor.fetchall()
-        self.team_id = team_id[0][0]
+
+        # self.cursor.execute("SELECT LAST_INSERT_ID()") 
+        # team_id = cursor.fetchall()
+        # self.team_id = team_id[0][0]
 
         sql = "INSERT INTO \
             TeamMember(Team_ID, User_ID, Permission)\
-            VALUES('%d', '%d', '%s')" % (self.team_id, self.user_ID, 'Y')
+            VALUES(LAST_INSERT_ID(), '%d', '%s')" % ( self.user_ID, 'Y')
         self.cursor.execute(sql)
         self.db.commit()
 
-        print("*Successfully Create Team into the [Team] TABLE!*")
+        print(" Successfully Create Team")
         input("\n\nPlease Enter to go to NEXT ! :")
         
-        self.cursor.execute("SELECT LAST_INSERT_ID()") 
-        team_id = cursor.fetchall()
-        self.team_ID = team_id[0][0]
-        self.selectTeam()
+
+        # self.cursor.execute(sql) 
+        # team_id = cursor.fetchall()
+        # self.team_ID = team_id[0][0]
+        self.teamlist()
 
     def deleteTeam(self):
-        print("delete Team")
+        sql = "update Team set Is_deleted = 'Y' where Team_ID = '%d'" % self.team_ID
+        self.cursor.execute(sql)
+        self.db.commit()
         self.teamlist()
 
     def clear(self):
