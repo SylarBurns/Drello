@@ -16,7 +16,7 @@ def Notice(db, cursor, user_ID):
 
     print("-----------------------Your Notice --------------------")
     for notice in notices :
-        print ( " ● %s | %s " % ( notice[0], notice[1] ))
+        print ( " ● %s | %s " % (notice[1] ,  notice[0]))
     print("-------------------------------------------------------")
     
 
