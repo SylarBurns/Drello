@@ -197,6 +197,15 @@ users =[("Handong","1111", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("Drumer_love_Drum", "3333", "kakao@handong.edu", "drummer", "English", "hello baby들")]
 mycursor.executemany(sqlFormula, users)
 
+sqlFormula = "INSERT INTO Team(Name, ShortName, Website, Description, Visibility) VALUES(%s, %s, %s, %s, %s)"
+Team = [("Team Avengers", "Avengers", "https://www.github.com/avengers", "This is team avengers", "Y"),
+         ("Team handong for DB", "Handong", "https://www.github.com/handong", "This is team handong!", "Y"),
+         ("super cool drello", "Drello", "https://drello.github.io", "super super coooooooooooool team drello", "N"),
+         ("universal cool CRA", "CRA", "https://www.github.com/CRA16", "super cool in universe CRA", "Y"),
+         ("Database Team", "DB", "https://www.drive.google.com/database", "database class in handong 2019-1", "Y"),]
+mycursor.executemany(sqlFormula, Team)
+mydb.commit()
+
 sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
 teamMembers = [(1, 1, 'Y'),
                (1, 2, 'N'),
@@ -214,15 +223,6 @@ teamMembers = [(1, 1, 'Y'),
                (4, 1, 'N'),
                (5, 1, 'N')]
 mycursor.executemany(sqlFormula, teamMembers)
-mydb.commit()
-
-sqlFormula = "INSERT INTO Team(Name, ShortName, Website, Description, Visibility) VALUES(%s, %s, %s, %s, %s)"
-Team = [("Team Avengers", "Avengers", "https://www.github.com/avengers", "This is team avengers", "Y"),
-         ("Team handong for DB", "Handong", "https://www.github.com/handong", "This is team handong!", "Y"),
-         ("super cool drello", "Drello", "https://drello.github.io", "super super coooooooooooool team drello", "N"),
-         ("universal cool CRA", "CRA", "https://www.github.com/CRA16", "super cool in universe CRA", "Y"),
-         ("Database Team", "DB", "https://www.drive.google.com/database", "database class in handong 2019-1", "Y"),]
-mycursor.executemany(sqlFormula, Team)
 mydb.commit()
 
 sqlFormula = "INSERT INTO Board (User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
@@ -280,11 +280,6 @@ Card = [(1, "First card", "1", "hihihi "),
          (3, "22222", "2", "i'm tired."),]
 mycursor.executemany(sqlFormula, Card)
 mydb.commit()
-
-# sqlFormula = "INSERT INTO Card (List_ID, Card_Title, Position, Members) VALUES(%s, %s, %s, %s)"
-# cards = [(1, "Captain America", 1, "hyewon,yujin,이승윤,HyoBin"),
-#          (1, "Iron Man", 2, "hyewon,yujin,이승윤,HyoBin")]
-# mycursor.executemany(sqlFormula, cards)
 
 sqlFormula = "INSERT INTO CheckList (Card_ID, Checklist_Name) VALUES(%s, %s)"
 checklists = [(1, "Captain America"),
