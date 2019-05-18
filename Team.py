@@ -4,16 +4,6 @@ import Board
 import Board_Specific
 import os
 
-db = mysql.connector.connect(
-  host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
-  port=3306,
-  user="gyqls",
-  passwd="rnjssmdsoRj1",
-  database = "Drello"
-)
-cursor = db.cursor()
-user_ID = 1
-
 class Team:
     def __init__(self, db, cursor , user_ID):
         self.db = db
@@ -61,6 +51,7 @@ class Team:
         
 
     def selectTeam(self):
+        self.db.commit()
         self.clear()
 
         sql = "Select Name from Team WHERE Team_ID = '%s'" % self.team_ID
@@ -92,6 +83,7 @@ class Team:
             self.selectTeam()
 
     def editTeamProfile(self):
+        self.db.commit()
         self.clear()
         while(True):
             sql = "Select * from Team WHERE Team_ID = '%s'" % self.team_ID
@@ -145,6 +137,7 @@ class Team:
 
 
     def teamsBoard(self):
+        self.db.commit()
         BOARD = Board.Board_Manager(self.team_ID,self.db, self.user_ID)
         self.clear()
         print("----------Team's Board------------")
@@ -176,6 +169,7 @@ class Team:
             self.teamsBoard() 
 
     def teamsMember(self):
+        self.db.commit()
         self.clear()
         sql = "SELECT U.User_Name, U.Login_ID, TM.Permission, TM.User_ID \
             FROM Team as T, TeamMember as TM, User as U \
@@ -205,6 +199,7 @@ class Team:
         self.AdminUser(users)
 
     def AdminUser(self, users) :
+        self.db.commit()
         # self.teamsMember()
         print("------------------------------------------")        
         print(" 1 : Change Members's Permissions")
@@ -304,6 +299,7 @@ class Team:
         self.teamsMember()
 
     def leaveTeam(self):
+        self.db.commit()
         sql = "UPDATE TeamMember Set Is_deleted = 'Y'\
         WHERE Team_ID = '%d' AND User_ID = '%d'" % (self.team_ID, self.user_ID)
         self.cursor.execute(sql)
@@ -311,6 +307,7 @@ class Team:
         self.teamlist()
 
     def NormalUser(self, users):
+        self.db.commit()
         # self.clear()
         # self.teamsMember
         print("------------------------------------------")  
@@ -338,6 +335,7 @@ class Team:
             self.teamsMember()
 
     def InviteUser(self, users) :
+        self.db.commit()
         Email_Or_Name = input(" Enter Email Address or Name : ")
         
         # sql = "Select U.User_ID, U.Login_ID, U.User_Name from User as U , TeamMember as TM\
@@ -412,6 +410,7 @@ class Team:
         self.teamsMember()
 
     def SearchUser(self, users):
+        self.db.commit()
         name = input(" Filter by name : ")
         sql = "Select U.Login_ID, U.User_Name FROM User as U \
             JOIN TeamMember as TM ON TM.User_ID = U.User_ID\
@@ -428,6 +427,7 @@ class Team:
         
     
     def createTeam(self):
+        self.db.commit()
         # name, description(optional)
         self.clear()
         Name = "OSS team"
@@ -467,6 +467,7 @@ class Team:
         self.teamlist()
 
     def deleteTeam(self):
+        self.db.commit()
         sql = "update Team set Is_deleted = 'Y' where Team_ID = '%d'" % self.team_ID
         self.cursor.execute(sql)
         self.db.commit()
@@ -476,6 +477,7 @@ class Team:
         os.system('cls' if os.name == 'nt' else 'clear')
 
     def start(self):
+        self.db.commit()
         self.teamlist()
 
 # Team(db, cursor , user_ID)q

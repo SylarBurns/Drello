@@ -374,9 +374,9 @@ def SpecificList(in_list, my_db, curr_user) :
                 result = curr_cursor.fetchone()
                 member_str = result[0]
             else : # team owes board
-                sql_query = "SELECT User.User_Name FROM User, BoardMember \
-                                WHERE User.User_ID=BoardMember.User_ID AND Board_ID=%d \
-                                AND User.Is_deleted='N' AND BoardMember.Is_deleted='N'" % board_id
+                sql_query = "SELECT User.User_Name, Team_ID FROM User, TeamMember \
+                            WHERE User.User_ID=TeamMember.User_ID AND Team_ID=%d \
+                            AND User.Is_deleted='N' AND TeamMember.Is_deleted='N'" % my_result[1]
                 curr_cursor.execute(sql_query)
                 my_result = curr_cursor.fetchall()
                 tmp = [row[0] for row in my_result]
