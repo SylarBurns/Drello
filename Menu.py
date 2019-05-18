@@ -6,6 +6,7 @@ import Login
 import Team
 import Board
 import os
+import AllNotice
 
 class Menu :
     def __init__(self, db, cursor, user_ID):
@@ -20,7 +21,7 @@ class Menu :
         print("1. USER")
         print("2. TEAM")
         print("3. BOARD")
-        print("4. NOTICE(NOT YET)")
+        print("4. NOTICE")
         print("5. LOGOUT")
         print("------------------------")
             
@@ -38,6 +39,7 @@ class Menu :
         BOARD.start()
         
     def notice(self):
+        AllNotice.Notice(self.db, self.cursor, self.user_ID)
         print("SQL about notice")
         
     def logout(self):
@@ -47,7 +49,7 @@ class Menu :
     
     def start(self):
         self.menu()
-        choice = int(input("Enter the number of SQL content you want to see : "))
+        choice = int(input("Enter the number you want : "))
 
         if(choice == 1) :
             self.user()
