@@ -382,7 +382,10 @@ def SpecificList(in_list, my_db, curr_user) :
             sql_query = "SELECT Position FROM Card WHERE List_ID=%d AND Is_deleted='N' ORDER BY Position DESC" % in_list
             curr_cursor.execute(sql_query)
             my_result = curr_cursor.fetchone()
-            curr_position = my_result[0]+1
+            if not my_result :
+                curr_position = 1
+            else :
+                curr_position = my_result[0]+1
             sql_query = "INSERT INTO Card(List_ID, Card_Title, Position, Description, Members) VALUES (%s, %s, %s, %s, %s)"
             input_query = [(in_list, card_title, curr_position ,card_description, member_str),]
             curr_cursor.executemany(sql_query, input_query)
