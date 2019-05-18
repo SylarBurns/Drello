@@ -279,8 +279,8 @@ Card = [(1, "First card", "1", "hihihi "),
          (2, "Card C", "3", "today's schedule..."),
          (3, "11111", "1", "i'm hungry."),
          (3, "22222", "2", "i'm tired."),]
-mycursor.executemany(sqlFormula, Card)
-mydb.commit()
+# mycursor.executemany(sqlFormula, Card)
+# mydb.commit()
 
 sqlFormula = "INSERT INTO CheckList (Card_ID, Checklist_Name) VALUES(%s, %s)"
 checklists = [(1, "Captain America"),
