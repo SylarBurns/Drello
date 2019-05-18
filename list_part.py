@@ -18,6 +18,7 @@ def ListofLists(in_board, my_db, curr_user) :
         print("========================================")
         print("[0] to back to Board")
         answer = input("Give a number. : ")
+        my_db.commit()
 
         if answer == "1" :
             sql_query = "SELECT * FROM List WHERE Board_id = %d ORDER BY Position" % in_board
@@ -238,6 +239,7 @@ def SpecificList(in_list, my_db, curr_user) :
         print("========================================")
         print("[0] Back to lists of list.")
         answer = input("Give the number. : ")
+        my_db.commit()
 
         if answer == "1" :
             sql_query = """SELECT List.List_Title, Board.Board_Title FROM List, Board 
@@ -290,6 +292,7 @@ def SpecificList(in_list, my_db, curr_user) :
             my_db.commit()
 
         elif answer == "4" :
+            my_db.commit()
             sql_query = """SELECT Activity.DateTime, Activity.Action FROM Activity, Notice 
                             WHERE Activity.User_ID=Notice.User_ID AND Activity.Activity_ID=Notice.Activity_ID
                             AND Activity.List_ID=%d AND Notice.Is_read='N' ORDER BY Activity.DateTime DESC""" % in_list

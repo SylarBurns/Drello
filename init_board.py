@@ -192,7 +192,7 @@ users =[("Handong","1111", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("yujineee","1006", "yujin@handong.edu",  "yujin", "Korean", "I'm yujin"),
         ("user24339877","1007", "user24339877@handong.edu",  "이승윤", "Korean", "Drello lover"),
         ("hyewon43","1008", "hyewon43@handong.edu",  "Hyewon", "Korean", "best developer"),
-        ("love_Drumer", "1111", "love@handong.edu", "", "drummer" , "hello~"),
+        ("love_Drumer", "1111", "love@handong.edu","drummer" ,"Korean", "hello~"),
         ("Drumer_123", "2222", "handonge@naver.com", "Drummer", "Korean", "my name is drumer"),
         ("Drumer_love_Drum", "3333", "kakao@handong.edu", "drummer", "English", "hello baby들")]
 mycursor.executemany(sqlFormula, users)

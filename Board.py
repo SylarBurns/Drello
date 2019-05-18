@@ -13,6 +13,7 @@ class Board_Manager:
         self.Board_list={}
         self.team_ID = new_team_ID
     def board_list(self):
+        self.db.commit()
         board_sql = "SELECT Board.Board_Title, Board.Board_ID FROM Board INNER JOIN BoardMember ON Board.Board_ID = BoardMember.Board_ID WHERE BoardMember.User_ID = '%s' AND Board.Is_deleted = 'N' " % self.user_ID
         self.mycursor.execute(board_sql)
         myresult = self.mycursor.fetchall()
@@ -29,6 +30,7 @@ class Board_Manager:
             self.count = 0
             self.Max_Count = 0
     def board_create(self):
+        self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         print("Creating a new Board.\n")
         # Title = input("Title: ")
@@ -68,6 +70,7 @@ class Board_Manager:
 
         self.db.commit()
     def board_delete_close(self):
+        self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         option = input("1 Close\n2 Delete\nEnter your option:")
         if option == "1":
@@ -111,6 +114,7 @@ class Board_Manager:
         pause = input("Enter to continue")
         
     def board_search(self):
+        self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         search_target = input("Enter the title of the board: ")
         search_sql = """SELECT Board.Board_Title, Board.Board_ID FROM Board
@@ -135,11 +139,13 @@ class Board_Manager:
                 pause = input("Enter to continue")
           
     def board_specific(self, choice):
+        self.db.commit()
         #choice가 board_ID 인건가요  ? ?  ?
         os.system('cls' if os.name == 'nt' else 'clear')
         print("You selected",self.Board_list[choice])
         chosen_board = Board_Specific.Specific_Board_Manager(-1,self.Board_list[choice], self.db, self.user_ID)
     def start(self):
+        self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         choice = 0
         while(choice != 4):

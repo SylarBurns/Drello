@@ -11,18 +11,18 @@ class Specific_Board_Manager:
         self.db = db
         self.mycursor = self.db.cursor()
         self.count = 0
-        self.Max_Count = 0
+        self.Max_Count = 0;
         self.Notice_list={}
         
         if self.Team_ID == -1: #if team information is not given.
             sql = "SELECT Permission FROM BoardMember where Board_Id = %d AND User_ID = %d" % (self.Board_ID, self.User_ID)
             self.mycursor.execute(sql)
-            result = self.mycursor.fetchone()
+            result = self.mycursor.fetchone();
             self.User_Perm = result[0]
         else:# if the board belongs to a team.
             sql = "SELECT Permission FROM TeamMember where Team_Id = %d AND User_ID = %d" % (self.Team_ID, self.User_ID)
             self.mycursor.execute(sql)
-            result = self.mycursor.fetchone()
+            result = self.mycursor.fetchone();
             if result[0] == 'Y':
                 self.User_Perm = "Admin"
             else:
@@ -34,6 +34,8 @@ class Specific_Board_Manager:
         self.start()
 
     def board_info(self):
+        self.db.commit()
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("{0:-^30}".format("Board Information"))
         sql = "SELECT Board.Board_title From Board Where Board.Board_ID = %d" % self.Board_ID
         self.mycursor.execute(sql)
@@ -47,7 +49,7 @@ class Specific_Board_Manager:
             if Title is None:
                 pass
             else:
-                print("Team: "+ Title[0])
+                print("Team: "+Title[0])
         else:#if the board belongs to a User
             sql = "SELECT User.Login_ID From BoardMember, User Where BoardMember.Board_ID = %d AND BoardMember.Is_deleted='N' AND BoardMember.User_Id = User.User_ID" % self.Board_ID
             self.mycursor.execute(sql)
@@ -72,6 +74,7 @@ class Specific_Board_Manager:
             print("\t-"+Name+" "+Color)
         print("{0:-^30}".format(""))
     def board_toggle_watch(self):
+        self.db.commit()
         print("Toggling the watch info")
         sql = "SELECT * From Watch where Watch.ID_type = 'BOARD' AND Watch.ID = %d AND Watch.User_ID = %d" % (self.Board_ID, self.User_ID)
         self.mycursor.execute(sql)
@@ -89,7 +92,8 @@ class Specific_Board_Manager:
             Thanos.Activity_notice("BOARD", self.Board_ID, self.User_ID, self.db, Action)
         self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
-    def board_edit(self):    
+    def board_edit(self):
+        self.db.commit()    
         choice = 0
         while(choice != 8):
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -171,7 +175,7 @@ class Specific_Board_Manager:
             elif choice == 5: # Members
                 sql = "SELECT AddRmPerm FROM Board where Board_Id = %d" % self.Board_ID
                 self.mycursor.execute(sql)
-                result = self.mycursor.fetchone()
+                result = self.mycursor.fetchone();
                 Board_AddRmPerm = result[0]
         
                 Current_Perm = 'N'
@@ -295,7 +299,7 @@ class Specific_Board_Manager:
                 
                 sql = "SELECT AddRmPerm FROM Board where Board_Id = %d" % self.Board_ID
                 self.mycursor.execute(sql)
-                result = self.mycursor.fetchone()
+                result = self.mycursor.fetchone();
                 Board_AddRmPerm = result[0]
                 Current_Perm = 'N'
                 if Board_AddRmPerm == 'Admin': # When the AddRmPerm is Admin, we want only the admin user can add new members or team
@@ -352,7 +356,6 @@ class Specific_Board_Manager:
                 Add_or_Delete = int(Ans)
                 if Add_or_Delete == 1:
                     label_name = input("Label Name: ")
-                    print("Color : Black Red Green Yellow Blue Magenta Cyan White")
                     Label_color = input("Label Color: ")
                     sql = "INSERT into Labels(Board_ID, Name, Color) Values (%s, %s, %s)"
                     self.mycursor.execute(sql, (self.Board_ID, label_name, Label_color))
@@ -384,9 +387,11 @@ class Specific_Board_Manager:
             pause = input("Enter to continue")
         
     def lists(self):
+        self.db.commit()
         print("Entering the list of lists")
         ListofLists(self.Board_ID, self.db, self.User_ID)
     def board_notice(self):
+        self.db.commit()
         print("{0:-^30}".format("Your Notices"))
         sql = """SELECT Activity.Activity_ID, User.Login_ID, Activity.Action 
         From Activity, Notice, User
@@ -408,15 +413,18 @@ class Specific_Board_Manager:
             self.Max_Count = 0
         print("{0:-^30}".format(""))
     def board_notice_check(self, choice):
+        self.db.commit()
         sql = "UPDATE Notice SET Is_read = 'Y' WHERE Notice.User_ID = %d AND Notice.Activity_ID = %d "% (self.User_ID, self.Notice_list[choice])
         self.mycursor.execute(sql)
         self.db.commit()
         print("Marked notice",self.Notice_list[choice],"as read")
     def board_notice_check_all(self):
+        self.db.commit()
         sql = "UPDATE Notice SET Is_read = 'Y' WHERE Notice.User_ID = %d" % self.User_ID
         self.mycursor.execute(sql)
         self.db.commit()
     def start(self):
+        self.db.commit()
         os.system('cls' if os.name == 'nt' else 'clear')
         sql = "SELECT IsClosed From Board Where Board_ID = %d" % self.Board_ID
         self.mycursor.execute(sql)
@@ -428,7 +436,7 @@ class Specific_Board_Manager:
             while(choice != 4):
                 self.board_info()
                 print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back\n5 Mark all notices as read")
-                self.board_notice()
+                self.board_notice();
                 if self.User_Perm == "Admin":
                     print("**You have the Admin Permission for this Board")
                 Ans = input("Enter the number for your choice: ")

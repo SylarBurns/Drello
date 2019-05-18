@@ -4,6 +4,7 @@ import os
 
 def Notice(db, cursor, user_ID):
     os.system('cls' if os.name == 'nt' else 'clear')
+    self.db.commit()
 
     sql = "select A.Action, A.DateTime \
         From Activity as A , Notice as N\
