@@ -35,6 +35,7 @@ class Specific_Board_Manager:
 
     def board_info(self):
         self.db.commit()
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("{0:-^30}".format("Board Information"))
         sql = "SELECT Board.Board_title From Board Where Board.Board_ID = %d" % self.Board_ID
         self.mycursor.execute(sql)
