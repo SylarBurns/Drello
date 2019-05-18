@@ -377,19 +377,23 @@ class Team:
                         allfinduser.remove(user)
 
             i = 1
+            print("\n")
             if(allfinduser == []) :
                 print("\n No results \n")
             else :
                 for user in allfinduser :
-                    print("\n ● %d. %s @%s\n" % (i, user[2], user[1]))
+                    print(" ● %d. %s @%s" % (i, user[2], user[1]))
                     i = i+1
 
-                c = int(input("Select User Number you want to invite : "))
+                c = int(input("\nSelect User Number you want to invite : "))
                 if(c<=len(user)) :
                     while(True):
                         answer = input("Do you want to invite? '%s' (Y/N) : " % allfinduser[c-1][2])
                         if(answer.lower() == "y") :
-                            print("\nDrello send Invite E-Mail to %s\n" % (allfinduser[c-1][2]))
+                            # print("\nDrello send Invite E-Mail to %s\n" % (allfinduser[c-1][2]))
+                            sql = "Insert INTO TeamMember VALUES ('%d', '%d', '%s', '%s')" % (self.team_ID, allfinduser[c-1][0], 'N', 'N')
+                            self.cursor.execute(sql)
+                            self.db.commit()
                             break
                         elif(answer.lower() == "n") :
                             print("\nNo invitation\n")
