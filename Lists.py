@@ -145,8 +145,9 @@ class Checklist_List_Manager:
         print("\n1. Edit Checklist title")
         print("2. Add new item")
         print("3. Delete a item")
-        print("4. Toggle a item")
-        print("5. Go Back")
+        print("4. Edit item")
+        print("5. Toggle a item")
+        print("6. Go Back")
     def setting(self):
         self.list = {}
         sql = "SELECT Checklist_ID, Checklist_Name FROM Checklist WHERE Card_ID = %d AND Is_deleted = 'N'" % self.Card_ID
@@ -165,7 +166,8 @@ class Checklist_List_Manager:
             print(str(i + 1) + ". " + self.list[i + 1][1])
     def create(self):
         # To do list 라는 이름의 checklist 생성
-        name = "To do list"
+        # name = "To do list"
+        name = input("Checklist name : ")
         sql = "INSERT INTO Checklist (Card_ID, Checklist_Name) VALUES(%d, '%s')" % (self.Card_ID, name)
         self.cursor.execute(sql)
         self.db.commit()
@@ -284,9 +286,14 @@ class Checklist_List_Manager:
                                 elif choice == '4':
                                     os.system('cls' if os.name == 'nt' else 'clear')
                                     print("------------------\n" + result[1].center(18) + "\n------------------")
-                                    self.toggle_checkitem(checklist_num, items)
+                                    self.edit_checkitem(checklist_num, items)
                                     break
                                 elif choice == '5':
+                                    os.system('cls' if os.name == 'nt' else 'clear')
+                                    print("------------------\n" + result[1].center(18) + "\n------------------")
+                                    self.toggle_checkitem(checklist_num, items)
+                                    break
+                                elif choice == '6':
                                     return
                                 else:
                                     input("Wrong choice! Please enter again >>")
@@ -319,7 +326,8 @@ class Checklist_List_Manager:
         Thanos.Activity_notice("CARD", self.Card_ID, self.User_ID, self.db, act_str)      
     def add_checkitem(self, list_num, items):
         # Captain America 추가
-        item = "Captain America"
+        # item = "Make database schema"
+        item = input("new item : ")
         if items:
             items = items + "," + item + ":F"
         else:
@@ -359,6 +367,41 @@ class Checklist_List_Manager:
 
                     c_name, b_title, l_title = self.Activity_manager.for_activity()
                     act_str = "Deleted item '%s' from Checklist '%s' included with card '%s' in list '%s' on '%s'" % (items[item_num][0], self.list[list_num][1], c_name, l_title, b_title)
+                    Thanos.Activity_notice("CARD", self.Card_ID, self.User_ID, self.db, act_str)
+                    break
+                else:
+                    print("Wrong number! please enter again")
+            except:
+                print("Wrong number! please enter again")
+    def edit_checkitem(self, list_num, items):
+        while True:
+            try:
+                for i in range(len(items)):
+                    if items[i + 1][1] == 'T':
+                        print(str(i + 1) + ". ☑ " + items[i + 1][0])
+                    elif items[i + 1][1] == 'F':
+                        print(str(i + 1) + ". ☐ " + items[i + 1][0])
+                item_num = input("\nWhich Item? (q : go back) >> ")
+                if item_num == 'q':
+                    print("return to previous view")
+                    break
+                item_num = int(item_num)
+                if item_num in items:
+                    # check item을 "make ER- diagram" 수정
+                    item = "Make ER-Diagram"
+                    item_list = ""
+                    for i in range(len(items)):
+                        if item_num != i + 1:
+                            item_list = item_list + items[i + 1][0] + ":" + items[i + 1][1] + ","
+                        else:
+                            item_list = item_list + item + ":" + items[i + 1][1] + ","
+                    item_list = item_list.rstrip(",")
+                    sql = "UPDATE Checklist SET Check_Item = '%s' WHERE Checklist_ID = %d" % (item_list, self.list[list_num][0])
+                    self.cursor.execute(sql)
+                    self.db.commit()
+
+                    c_name, b_title, l_title = self.Activity_manager.for_activity()
+                    act_str = "Edit Checklist item '%s' to '%s' from Checklist '%s' included with card '%s' in list '%s' on '%s'" % (items[item_num][0], item, self.list[list_num][1], c_name, l_title, b_title)
                     Thanos.Activity_notice("CARD", self.Card_ID, self.User_ID, self.db, act_str)
                     break
                 else:
@@ -448,7 +491,8 @@ class Comment_List_Manager:
                 print("   " + self.list[i + 1][3])
     def add(self):
         # Lovely JC 라는 comment 작성
-        comment = "Lovely JC"
+        # comment = "Lovely JC"
+        comment = input("new comment : ")
         sql = "INSERT INTO Comment (User_ID, Card_ID, Content) VALUES(%d, %d, '%s')" % (self.User_ID, self.Card_ID, comment)
         self.cursor.execute(sql)
         self.db.commit()
@@ -494,7 +538,8 @@ class Comment_List_Manager:
                 if comment_num in self.list:
                     if self.list[comment_num][1] == self.User_ID:
                         # Lovely JH 라는 comment로 수정
-                        modified = "Lovely JH"
+                        # modified = "Lovely JH"
+                        modified = input("comment : ")
                         sql = "UPDATE Comment SET Content = '%s', DateTime = CURRENT_TIMESTAMP, Is_edited = 'Y' WHERE Comment_ID = %d" % (modified, self.list[comment_num][0])
                         self.cursor.execute(sql)
                         self.db.commit()
