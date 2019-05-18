@@ -347,7 +347,7 @@ class Team:
         # self.cursor.execute("drop view Findusers")
         # self.db.commit()
 
-        sql = "Create view Findusers AS Select User_ID, Login_ID, User_Name from User\
+        sql = "Create or replace view Findusers AS Select User_ID, Login_ID, User_Name from User\
             Where (User_Name = '%s' or User_Email = '%s') AND Is_deleted = 'N'\
                 " %(Email_Or_Name, Email_Or_Name)
 
@@ -388,7 +388,7 @@ class Team:
                     i = i+1
 
                 c = int(input("\nSelect User Number you want to invite : "))
-                if(c<=len(user)) :
+                if(c<=len(user)+1) :
                     while(True):
                         answer = input("Do you want to invite? '%s' (Y/N) : " % allfinduser[c-1][2])
                         if(answer.lower() == "y") :
