@@ -22,4 +22,8 @@ def Notice(db, cursor, user_ID):
     
 
     input("\n\nEnter to go to Menu ")
+<<<<<<< HEAD
     Menu.Menu(db, cursor , user_ID)
+=======
+    Menu.Menu(db, cursor , user_ID)
+>>>>>>> ea7a7ebbd24c0c5e69c375e77632b7f47cd660fe
