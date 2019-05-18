@@ -8,6 +8,14 @@ mydb = mysql.connector.connect(
  	database = "Drello"
 )
 
+mydb = mysql.connector.connect(
+    host="localhost",
+    port=3306,
+    user="root",
+    passwd="mz0090mz",
+    database="Drello"
+)
+
 mycursor = mydb.cursor()
 create_database = "CREATE DATABASE Drello"
 #mycursor.execute(create_database)
@@ -186,7 +194,7 @@ users =[("Handong","1111", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("hyewon43","1008", "hyewon43@handong.edu",  "Hyewon", "Korean", "best developer"),
         ("love_Drumer", "1111", "love@handong.edu", "", "drummer" , "hello~"),
         ("Drumer_123", "2222", "handonge@naver.com", "Drummer", "Korean", "my name is drumer"),
-        ("Drumer_love_Drum", "kakao@handong.edu", "drummer", "English", "hello baby들")]
+        ("Drumer_love_Drum", "3333", "kakao@handong.edu", "drummer", "English", "hello baby들")]
 mycursor.executemany(sqlFormula, users)
 
 sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
