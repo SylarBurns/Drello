@@ -518,7 +518,7 @@ class Comment_List_Manager:
                         self.db.commit()
                         break
                     else:
-                        print("It's not your comment!")
+                        input("It's not your comment! >>")
                         break
                 else:
                     print("Wrong number! please enter again")
@@ -546,7 +546,7 @@ class Comment_List_Manager:
                         print("Edit Comment")
                         break
                     else:
-                        print("It's not your comment!")
+                        input("It's not your comment! >>")
                         break
                 else:
                     print("Wrong number! please enter again")
