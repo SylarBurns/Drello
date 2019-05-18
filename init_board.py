@@ -174,7 +174,7 @@ for sql in sql_list:
 mycursor = mydb.cursor()
 
 sqlFormula = "INSERT INTO User (Login_ID, User_PW, User_Email, User_Name, User_Language, User_Profile) VALUES (%s, %s, %s, %s, %s, %s)"
-users =[("Handong","1004", "JC@handong.edu",  "JC", "Korean", "Hi"),
+users =[("Handong","1111", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("hyeon-62", "123123", "21700646@handong.edu", "hyewon", "Korean", "Hi! I'm hyewon"),
         ("first-id", "12345", "hi@handong.edu", "CRA", "Korean", "Hi! I'm hello"),
         ("english_id", "abcde", "hello@naver.com", "곽효빈", "English", "Hello world"),
@@ -183,8 +183,40 @@ users =[("Handong","1004", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("gyqls","1005", "HB@handong.edu",  "HyoBin", "Korean" , ""),
         ("yujineee","1006", "yujin@handong.edu",  "yujin", "Korean", "I'm yujin"),
         ("user24339877","1007", "user24339877@handong.edu",  "이승윤", "Korean", "Drello lover"),
-        ("hyewon43","1008", "hyewon43@handong.edu",  "Hyewon", "Korean", "best developer")]
+        ("hyewon43","1008", "hyewon43@handong.edu",  "Hyewon", "Korean", "best developer"),
+        ("Drumer", "2222", "drumer@handong.edu", "Drumer", "Korean", "hi"),
+        ("love_Drumer", "1111", "love@handong.edu", "드럼", "Korean" , "hello~"),
+        ("Drumer_123", "2222", "handonge@naver.com", "드러미", "Korean", "my name is drumer"),
+        ("Drumer_love_Drum", "kakao@handong.edu", "handonge", "English", "hello baby들")]
 mycursor.executemany(sqlFormula, users)
+
+sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
+teamMembers = [(1, 1, 'Y'),
+               (1, 2, 'N'),
+               (1, 3, 'Y'),
+               (1, 4, 'N'),
+               (1, 5, 'N'),
+               (2, 6, 'N'),
+               (2, 1, 'Y'),
+               (2, 2, 'N'),
+               (2, 3, 'N'),
+               (3, 1, 'N'),
+               (3, 4, 'N'),
+               (3, 5, 'N'),
+               (3, 6, 'Y'),
+               (4, 1, 'N'),
+               (5, 1, 'N')]
+mycursor.executemany(sqlFormula, teamMembers)
+mydb.commit()
+
+sqlFormula = "INSERT INTO Team(Name, ShortName, Website, Description, Visibility) VALUES(%s, %s, %s, %s, %s)"
+Team = [("Team Avengers", "Avengers", "https://www.github.com/avengers", "This is team avengers", "Y"),
+         ("Team handong for DB", "Handong", "https://www.github.com/handong", "This is team handong!", "Y"),
+         ("super cool drello", "Drello", "https://drello.github.io", "super super coooooooooooool team drello", "N"),
+         ("universal cool CRA", "CRA", "https://www.github.com/CRA16", "super cool in universe CRA", "Y"),
+         ("Database Team", "DB", "https://www.drive.google.com/database", "database class in handong 2019-1", "Y"),]
+mycursor.executemany(sqlFormula, Team)
+mydb.commit()
 
 sqlFormula = "INSERT INTO Board (User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
 boards =[(1, "First Board", "Member", "Member", True, "Private"),
@@ -281,27 +313,3 @@ Attachment = [(1, 1, "pptx", "final"),
 mycursor.executemany(sqlFormula, Attachment)
 mydb.commit()
 
-sqlFormula = "INSERT INTO Team(Name, ShortName, Website, Description, Visibility) VALUES(%s, %s, %s, %s, %s)"
-Team = [("Team Avengers", "Avengers", "https://www.github.com/avengers", "This is team avengers", "Y"),
-         ("Team handong for DB", "Handong", "https://www.github.com/handong", "This is team handong!", "Y"),
-         ("super cool drello", "Drello", "https://drello.github.io", "super super coooooooooooool team drello", "N"),
-         ("universal cool CRA", "CRA", "https://www.github.com/CRA16", "super cool in universe CRA", "Y"),
-         ("Database Team", "DB", "https://www.drive.google.com/database", "database class in handong 2019-1", "Y"),]
-mycursor.executemany(sqlFormula, Team)
-mydb.commit()
-
-sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
-teamMembers = [(1, 1, 'Y'),
-               (1, 2, 'N'),
-               (1, 3, 'Y'),
-               (1, 4, 'N'),
-               (1, 5, 'N'),
-               (2, 6, 'N'),
-               (2, 1, 'N'),
-               (2, 2, 'N'),
-               (2, 3, 'N'),
-               (3, 4, 'N'),
-               (3, 5, 'N'),
-               (3, 6, 'Y'),]
-mycursor.executemany(sqlFormula, teamMembers)
-mydb.commit()
