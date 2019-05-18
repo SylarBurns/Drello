@@ -362,14 +362,14 @@ def SpecificList(in_list, my_db, curr_user) :
             card_title = input("Give a card name : ")
             card_description = input("Give a card description : ")
             
-            sql_query = """SELECT Board.Board_ID, Board.Team_ID, Board.User_ID FROM Board, List 
+            sql_query = """SELECT Board.Board_ID, Board.Team_ID FROM Board, List 
                             WHERE List.List_ID=%d AND List.Board_ID=Board.Board_ID""" % (in_list)
             curr_cursor.execute(sql_query)
             my_result = curr_cursor.fetchone()
             board_id = my_result[0]
 
             if my_result[1] == -1 : # a user owes board
-                sql_query = "SELECT User_Name FROM User WHERE User_ID=%d" % my_result[2]
+                sql_query = "SELECY User_Name from User, BoardMember WHERE Board_ID = %d" % board_id
                 curr_cursor.execute(sql_query)
                 result = curr_cursor.fetchone()
                 member_str = result[0]
