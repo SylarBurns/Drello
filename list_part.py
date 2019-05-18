@@ -290,6 +290,7 @@ def SpecificList(in_list, my_db, curr_user) :
             my_db.commit()
 
         elif answer == "4" :
+            my_db.commit()
             sql_query = """SELECT Activity.DateTime, Activity.Action FROM Activity, Notice 
                             WHERE Activity.User_ID=Notice.User_ID AND Activity.Activity_ID=Notice.Activity_ID
                             AND Activity.List_ID=%d AND Notice.Is_read='N' ORDER BY Activity.DateTime DESC""" % in_list

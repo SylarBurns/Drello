@@ -14,6 +14,7 @@ class User:
         self.start()     
     
     def usermenu(self):
+        self.clear()
         print("-----------USER SQL----------")
         print("1. Show user info")
         print("2. Edit user info")
@@ -25,6 +26,7 @@ class User:
         os.system('cls' if os.name == 'nt' else 'clear')    
 
     def showinfo(self):
+        self.db.commit()
         self.clear()
         sql = "SELECT * from User WHERE User_ID = '%d'" % self.user_ID
         self.cursor.execute(sql)
@@ -37,9 +39,11 @@ class User:
         print(" ● Language : " + result[0][5])
         print(" ● profile : " + result[0][6])
         print("\n")
-        self.clear()
+        input(" Enter : ")
+        
         
     def editinfo(self):
+        self.db.commit()
         Email = "JC@handong.edu"
         Name = "JC"
         self.clear()
@@ -107,6 +111,7 @@ class User:
         self.clear()
         
     def leaving(self):
+        self.db.commit()
         # user뿐 아니라 다른 table에서도 다 지워야 함
         # is_Delete 값 변경
         sql = "UPDATE User SET Is_deleted = 'Y' WHERE User_ID = '%d'" % self.user_ID
@@ -120,6 +125,7 @@ class User:
         
 
     def start(self):
+        self.db.commit()
         self.usermenu()
         choice = int(input("Enter the number for your choice: "))
 
