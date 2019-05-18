@@ -24,6 +24,7 @@ class Team:
         
     def teamlist(self):
         # 속한 팀 보여주기
+        self.db.commit()
         self.clear()
         # print("-----------------------------")
         print("----------Your Team----------")
@@ -381,6 +382,7 @@ class Team:
             if(allfinduser == []) :
                 print("\n No results \n")
             else :
+                print("\n")
                 for user in allfinduser :
                     print(" ● %d. %s @%s" % (i, user[2], user[1]))
                     i = i+1
@@ -391,7 +393,7 @@ class Team:
                         answer = input("Do you want to invite? '%s' (Y/N) : " % allfinduser[c-1][2])
                         if(answer.lower() == "y") :
                             # print("\nDrello send Invite E-Mail to %s\n" % (allfinduser[c-1][2]))
-                            sql = "Insert INTO TeamMember VALUES ('%d', '%d', '%s', '%s')" % (self.team_ID, allfinduser[c-1][0], 'N', 'N')
+                            sql = "Replace INTO TeamMember (Team_ID, User_ID, Permission) VALUES ('%d', '%d', 'N')" % (self.team_ID, allfinduser[c-1][0])
                             self.cursor.execute(sql)
                             self.db.commit()
                             break
