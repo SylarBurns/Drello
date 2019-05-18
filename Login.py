@@ -67,7 +67,7 @@ def join(db):
     # Language = "Korean"
     # profile = "Hi"
 
-    print("\n\n----------DRELLO JOIN---------")
+    print("----------DRELLO JOIN---------")
     # print("ID : Handong")
     # print("PW : 1004")
     # print("Email : JC@handong.edu")
