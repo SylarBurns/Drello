@@ -247,7 +247,7 @@ mydb.commit()
 #          (1, "Iron Man", 2, "hyewon,yujin,이승윤,HyoBin")]
 # mycursor.executemany(sqlFormula, cards)
 
-sqlFormula = "INSERT INTO Checklist (Card_ID, Checklist_Name) VALUES(%s, %s)"
+sqlFormula = "INSERT INTO CheckList (Card_ID, Checklist_Name) VALUES(%s, %s)"
 checklists = [(1, "Captain America"),
               (1, "Iron Man"),
               (2, "Thor"),
@@ -291,13 +291,13 @@ mycursor.executemany(sqlFormula, Team)
 mydb.commit()
 
 sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
-teamMembers = [(1, 1, 'N'),
+teamMembers = [(1, 1, 'Y'),
                (1, 2, 'N'),
                (1, 3, 'Y'),
                (1, 4, 'N'),
                (1, 5, 'N'),
                (2, 6, 'N'),
-               (2, 1, 'Y'),
+               (2, 1, 'N'),
                (2, 2, 'N'),
                (2, 3, 'N'),
                (3, 4, 'N'),
