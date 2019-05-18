@@ -30,6 +30,8 @@ def login(db):
     print("---------DRELLO LOGIN--------")
     # print("ID : %s" %Login_ID)
     # print("PW : %s" %User_PW)
+    Login_ID = input(" ID : ")
+    User_PW = input(" PassWord : ")
     print("-----------------------------")
 
     sql = "SELECT EXISTS (select * from User \
