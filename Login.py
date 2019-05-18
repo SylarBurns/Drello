@@ -24,17 +24,18 @@ def start(db):
 def login(db):
     os.system('cls' if os.name == 'nt' else 'clear')
     cursor = db.cursor()
-    Login_ID = "Handong"
-    User_PW = "1004"
+    # Login_ID = "Handong"
+    # User_PW = "1004"
 
     print("---------DRELLO LOGIN--------")
-    print("ID : %s" %Login_ID)
-    print("PW : %s" %User_PW)
+    # print("ID : %s" %Login_ID)
+    # print("PW : %s" %User_PW)
     print("-----------------------------")
 
     sql = "SELECT EXISTS (select * from User \
          where Login_ID = '%s' AND User_PW = '%s' AND Is_deleted = 'N')\
               as success" % (Login_ID , User_PW)
+    print(Login_ID, User_PW)
     cursor.execute(sql)
     success = cursor.fetchall()
     if(success[0][0] == 1): 
