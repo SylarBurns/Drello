@@ -79,10 +79,10 @@ Card="""CREATE TABLE Card(
    List_ID int NOT NULL,
    Label_ID varchar(128),
    Card_Title varchar(32) NOT NULL,
-   Position int Not NULL,
+   Position int NOT NULL,
    Description varchar(256),
    Due_Date TIMESTAMP,
-   Members varchar(128),
+   Members varchar(128) NOT NULL,
    Is_deleted char(1) DEFAULT 'N',
    FOREIGN KEY (List_ID) REFERENCES List(List_ID) ON UPDATE CASCADE,
    PRIMARY KEY (Card_ID)
@@ -225,11 +225,12 @@ teamMembers = [(1, 1, 'Y'),
 mycursor.executemany(sqlFormula, teamMembers)
 mydb.commit()
 
-sqlFormula = "INSERT INTO Board (User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
-boards =[(1, "First Board", "Member", "Member", True, "Private"),
-         (2, "Second Board", "Disabled", "Member", False, "Public"),
-         (3, "last Board", "Member", "Admin", False, "Public"),]
-mycursor.executemany(sqlFormula, boards)
+sqlFormula = "INSERT INTO Board (Team_ID, User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
+boards =[(-1 , 1, "First Board", "Member", "Member", True, "Private"),
+         (-1, 2, "Second Board", "Disabled", "Member", False, "Public"),
+         (-1, 3, "last Board", "Member", "Admin", False, "Public"),
+         (1, -1, "OSS study", "Member", "Admin", False, "Public"),
+         (1, -1, "DB Meeting", "Member", "Admin", False, "Public")]
 
 sqlFormula = "INSERT INTO List (List_Title, Board_ID, Position) VALUES (%s, %s, %s)"
 lists = [("Avengers", 1, 1),
