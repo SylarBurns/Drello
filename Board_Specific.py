@@ -11,18 +11,18 @@ class Specific_Board_Manager:
         self.db = db
         self.mycursor = self.db.cursor()
         self.count = 0
-        self.Max_Count = 0;
+        self.Max_Count = 0
         self.Notice_list={}
         
         if self.Team_ID == -1: #if team information is not given.
             sql = "SELECT Permission FROM BoardMember where Board_Id = %d AND User_ID = %d" % (self.Board_ID, self.User_ID)
             self.mycursor.execute(sql)
-            result = self.mycursor.fetchone();
+            result = self.mycursor.fetchone()
             self.User_Perm = result[0]
         else:# if the board belongs to a team.
             sql = "SELECT Permission FROM TeamMember where Team_Id = %d AND User_ID = %d" % (self.Team_ID, self.User_ID)
             self.mycursor.execute(sql)
-            result = self.mycursor.fetchone();
+            result = self.mycursor.fetchone()
             if result[0] == 'Y':
                 self.User_Perm = "Admin"
             else:
@@ -47,7 +47,7 @@ class Specific_Board_Manager:
             if Title is None:
                 pass
             else:
-                print("Team: "+title[0])
+                print("Team: "+ Title[0])
         else:#if the board belongs to a User
             sql = "SELECT User.Login_ID From BoardMember, User Where BoardMember.Board_ID = %d AND BoardMember.Is_deleted='N' AND BoardMember.User_Id = User.User_ID" % self.Board_ID
             self.mycursor.execute(sql)
@@ -171,7 +171,7 @@ class Specific_Board_Manager:
             elif choice == 5: # Members
                 sql = "SELECT AddRmPerm FROM Board where Board_Id = %d" % self.Board_ID
                 self.mycursor.execute(sql)
-                result = self.mycursor.fetchone();
+                result = self.mycursor.fetchone()
                 Board_AddRmPerm = result[0]
         
                 Current_Perm = 'N'
@@ -295,7 +295,7 @@ class Specific_Board_Manager:
                 
                 sql = "SELECT AddRmPerm FROM Board where Board_Id = %d" % self.Board_ID
                 self.mycursor.execute(sql)
-                result = self.mycursor.fetchone();
+                result = self.mycursor.fetchone()
                 Board_AddRmPerm = result[0]
                 Current_Perm = 'N'
                 if Board_AddRmPerm == 'Admin': # When the AddRmPerm is Admin, we want only the admin user can add new members or team
@@ -352,6 +352,7 @@ class Specific_Board_Manager:
                 Add_or_Delete = int(Ans)
                 if Add_or_Delete == 1:
                     label_name = input("Label Name: ")
+                    print("Color : Black Red Green Yellow Blue Magenta Cyan White")
                     Label_color = input("Label Color: ")
                     sql = "INSERT into Labels(Board_ID, Name, Color) Values (%s, %s, %s)"
                     self.mycursor.execute(sql, (self.Board_ID, label_name, Label_color))
@@ -427,7 +428,7 @@ class Specific_Board_Manager:
             while(choice != 4):
                 self.board_info()
                 print("1 View Lists\n2 Toggle Watch\n3 Edit Board Information\n4 Go Back\n5 Mark all notices as read")
-                self.board_notice();
+                self.board_notice()
                 if self.User_Perm == "Admin":
                     print("**You have the Admin Permission for this Board")
                 Ans = input("Enter the number for your choice: ")
