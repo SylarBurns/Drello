@@ -36,6 +36,7 @@ class Specific_Card_Manager:
             self.card_info()
             print("\n1. Edit Card\n2. Checklists\n3. Comments\n4. Attachments\n5. Activity\n6. Share\n7. Back to List")
             choice = input("\nEnter the number for your choice : ")
+            self.db.commit()
             if choice == '1':
                 self.edit_card()
             elif choice == '2':
@@ -82,6 +83,7 @@ class Specific_Card_Manager:
     def edit_card(self):
         print("\n1. Edit Title\n2. Edit Description\n3. Toggle Watch\n4. Add/Remove Label\n5. Add/Remove/Edit Due Date\n6. Go Back")        
         while True:
+            self.db.commit()
             choice = input("\nEnter the number for your choice : ")
             if choice == '1':
                 self.edit_title()
@@ -236,6 +238,7 @@ class Specific_Card_Manager:
     def checklists(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
+            self.db.commit()
             is_checklists = self.Checklist_list.setting()
             print("-----------------\n    Checklist\n-----------------")
             if is_checklists:
@@ -275,6 +278,7 @@ class Specific_Card_Manager:
     def comments(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
+            self.db.commit()
             is_comments = self.Comment_list.setting()
             print("-----------------------------------\n              Comment\n-----------------------------------")
             if is_comments:
@@ -311,6 +315,7 @@ class Specific_Card_Manager:
     def attachments(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
+            self.db.commit()
             print("-----------------------------------\n            Attachment\n-----------------------------------")
             is_attachment = self.Attachment_list.setting()
             self.Attachment_list.print_attachments()
@@ -346,6 +351,7 @@ class Specific_Card_Manager:
                         print("Wrong character! please enter again")
     def activity(self):
         os.system('cls' if os.name == 'nt' else 'clear')
+        self.db.commit()
         print("----------------------------------------------------------------------------------------------------------------\n                                                 Activity\n----------------------------------------------------------------------------------------------------------------")
         if self.Activity_list.setting():
             self.Activity_list.print_acticities()
