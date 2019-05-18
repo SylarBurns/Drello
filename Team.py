@@ -337,7 +337,7 @@ class Team:
             self.teamsMember()
 
     def InviteUser(self, users) :
-        Email_Or_Name = input(" Enter Email Address or Name (yujin/이승윤/HyoBin/hyewon) : ")
+        Email_Or_Name = input(" Enter Email Address or Name : ")
         
         # sql = "Select U.User_ID, U.Login_ID, U.User_Name from User as U , TeamMember as TM\
         #     WHERE (U.User_Name = '%s' or U.User_Email = '%s') AND U.Is_deleted = 'N' AND TM.Team_ID != '%d' AND TM.Is_deleted = 'N'\
@@ -377,7 +377,7 @@ class Team:
                         allfinduser.remove(user)
 
             i = 1
-            print("\n")
+
             if(allfinduser == []) :
                 print("\n No results \n")
             else :
