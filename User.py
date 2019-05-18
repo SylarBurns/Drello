@@ -14,6 +14,7 @@ class User:
         self.start()     
     
     def usermenu(self):
+        self.db.commit()
         self.clear()
         print("-----------USER SQL----------")
         print("1. Show user info")
@@ -26,6 +27,7 @@ class User:
         os.system('cls' if os.name == 'nt' else 'clear')    
 
     def showinfo(self):
+        self.db.commit()
         self.db.commit()
         self.clear()
         sql = "SELECT * from User WHERE User_ID = '%d'" % self.user_ID
@@ -44,8 +46,6 @@ class User:
         
     def editinfo(self):
         self.db.commit()
-        Email = "JC@handong.edu"
-        Name = "JC"
         self.clear()
         print("----------Edit User------------")
         print("1. Change Password ")
@@ -55,10 +55,14 @@ class User:
 
         if(c==1) : 
             self.clear()
+            # Email = "JC@handong.edu"
+            # Name = "JC"
             print("\n<SECURITY> EDIT PASSWORD \n")
             print("ENTER YOUR Email and Name to verify\n")
-            print(" ● Email : " + Email)
-            print(" ● Name : " + Name)
+            # print(" ● Email : " + Email)
+            # print(" ● Name : " + Name)
+            Email = input(" ● Email : " )
+            Name = input(" ● Name :  ")
             # print("CHECK DataBase ...")
 
             sql = "SELECT User_Email, User_Name From User \
@@ -68,14 +72,17 @@ class User:
             users = self.cursor.fetchall()
         
             if(users[0][0] == Email and users[0][1] == Name ) : 
-                PW = "1004"
-                print("Verified. You can change your password.")
-                print("Change password to %s\n\n" % PW)
+                # PW = "1004"
+                # print("Verified. You can change your password.")
+                PW = input("\n NEW Password : ")
 
                 sql = "UPDATE User Set User_PW = '%s' \
                     WHERE User_ID = '%d'" % (PW , self.user_ID)
                 self.cursor.execute(sql)
                 self.db.commit()
+
+                print("Change password to %s\n" % PW)
+
             else :
                 print("\nNOT Verified. \nYou can not change your password.")
             # self.clear()
