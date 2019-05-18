@@ -22,15 +22,15 @@ def start(db):
         start(db)
 
 def login(db):
+    os.system('cls' if os.name == 'nt' else 'clear')
     cursor = db.cursor()
     Login_ID = "Handong"
     User_PW = "1004"
 
-    print("\n\n---------DRELLO LOGIN--------")
+    print("---------DRELLO LOGIN--------")
     print("ID : %s" %Login_ID)
     print("PW : %s" %User_PW)
     print("-----------------------------")
-    print("...CHECK DATABASE .. ")
 
     sql = "SELECT EXISTS (select * from User \
          where Login_ID = '%s' AND User_PW = '%s' AND Is_deleted = 'N')\
@@ -53,58 +53,67 @@ def login(db):
     Menu.Menu(db, cursor , Users[0][0])
 
 def join(db):
+    os.system('cls' if os.name == 'nt' else 'clear')
     cursor = db.cursor()
     # cursor.execute("delete from User where User_ID='Handong'")
 
-    print("\n\n----------DRELLO JOIN---------")
-    print("ID : Handong")
-    print("PW : 1004")
-    print("Email : JC@handong.edu")
-    print("Name : JC")
-    print("Language : Korean")
-    print("profile : Hi")
-    print("-------------------------------")
-    
-    ID = "Handong"
-    PW = "1004"
-    Email = "JC@handong.edu"
-    Name = "JC"
-    Language = "Korean"
-    profile = "Hi"
+    # ID = "Handong"
+    # PW = "1004"
+    # Email = "JC@handong.edu"
+    # Name = "JC"
+    # Language = "Korean"
+    # profile = "Hi"
 
-    # ID Exist CHECK
-    sql = "SELECT EXISTS (select * from User \
+    print("\n\n----------DRELLO JOIN---------")
+    # print("ID : Handong")
+    # print("PW : 1004")
+    # print("Email : JC@handong.edu")
+    # print("Name : JC")
+    # print("Language : Korean")
+    # print("profile : Hi")
+
+    while(True ) :
+        ID = input("ID : ")
+
+        sql = "SELECT EXISTS (select * from User \
         where Login_ID = '%s' AND Is_deleted = 'N') \
             as success" % (ID)
 
-    cursor.execute(sql)
-    success = cursor.fetchall()
-    # 1 = Exists
-    if(success[0][0] == 1): 
-        print("ID already exists. Enter another ID")
-        input("\n\nPlease Enter to go to NEXT ! :")
-        start(db)
-    else :
-        print("...INSERT INTO User TABLE...")
-        sql = "INSERT INTO User \
-                (Login_ID, User_Email, User_PW, User_Name, User_Language, User_profile)\
-                VALUES('%s','%s', '%s', '%s','%s', '%s' )" % (ID, Email, PW, Name, Language,profile )
-            
-
         cursor.execute(sql)
-        print("*Successfully Create User into the [User] TABLE!*")
+        success = cursor.fetchall()
+
+        if(success[0][0] == 1): 
+            print("ID already exists. Enter another ID\n")
+        else :
+            break
+
+    PW = input("PW : ")
+    Email = input("Email : ")
+    Name = input("Name : ")
+    Language = input("Language : ")
+    profile =input("profile : ")
+    print("-------------------------------")
+
+    # print("...INSERT INTO User TABLE...")
+    sql = "INSERT INTO User \
+            (Login_ID, User_Email, User_PW, User_Name, User_Language, User_profile)\
+            VALUES('%s','%s', '%s', '%s','%s', '%s' )" % (ID, Email, PW, Name, Language,profile )
         
-        sql = "SELECT User_ID, Login_ID FROM User\
-             Where Login_ID = '%s' AND User_PW = '%s' AND Is_deleted = 'N'" \
-                 % (ID,PW)
-        cursor.execute(sql)
 
-        Users = cursor.fetchall()
-        db.commit()
-        print("...AUTO LOGIN ...\n\n")
-        print("Your ID : " , Users[0][1])
-        input("\n\nPlease Enter to go to NEXT ! :")
-        Menu.Menu(db, cursor , Users[0][0])
+    cursor.execute(sql)
+    # print("*Successfully Create User into the [Usder] TABLE!*")
+    
+    sql = "SELECT User_ID, Login_ID FROM User\
+            Where Login_ID = '%s' AND User_PW = '%s' AND Is_deleted = 'N'" \
+                % (ID,PW)
+    cursor.execute(sql)
+
+    Users = cursor.fetchall()
+    db.commit()
+    print("Auto Login...")
+    # print("Your ID : " , Users[0][1])
+    input("\n\nPlease Enter to go to NEXT ! :")
+    Menu.Menu(db, cursor , Users[0][0])
 
 
 
