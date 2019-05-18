@@ -184,10 +184,9 @@ users =[("Handong","1111", "JC@handong.edu",  "JC", "Korean", "Hi"),
         ("yujineee","1006", "yujin@handong.edu",  "yujin", "Korean", "I'm yujin"),
         ("user24339877","1007", "user24339877@handong.edu",  "이승윤", "Korean", "Drello lover"),
         ("hyewon43","1008", "hyewon43@handong.edu",  "Hyewon", "Korean", "best developer"),
-        ("Drumer", "2222", "drumer@handong.edu", "Drumer", "Korean", "hi"),
-        ("love_Drumer", "1111", "love@handong.edu", "", "drumer" , "hello~"),
-        ("Drumer_123", "2222", "handonge@naver.com", "Drumer", "Korean", "my name is drumer"),
-        ("Drumer_love_Drum", "kakao@handong.edu", "drumer", "English", "hello baby들")]
+        ("love_Drumer", "1111", "love@handong.edu", "", "drummer" , "hello~"),
+        ("Drumer_123", "2222", "handonge@naver.com", "Drummer", "Korean", "my name is drumer"),
+        ("Drumer_love_Drum", "kakao@handong.edu", "drummer", "English", "hello baby들")]
 mycursor.executemany(sqlFormula, users)
 
 sqlFormula = "INSERT INTO TeamMember(Team_ID, User_ID, Permission) VALUES(%s, %s, %s)"
