@@ -369,18 +369,18 @@ def SpecificList(in_list, my_db, curr_user) :
             board_id = my_result[0]
 
             if my_result[1] == -1 : # a user owes board
-                sql_query = "SELECY User_Name from User, BoardMember WHERE Board_ID = %d" % board_id
+                sql_query = "SELECT User_Name from User, BoardMember WHERE Board_ID = %d \
+                            AND BoardMember.User_ID=User.User_ID ;" % board_id
                 curr_cursor.execute(sql_query)
-                result = curr_cursor.fetchone()
-                member_str = result[0]
+
             else : # team owes board
                 sql_query = "SELECT User.User_Name, Team_ID FROM User, TeamMember \
                             WHERE User.User_ID=TeamMember.User_ID AND Team_ID=%d \
                             AND User.Is_deleted='N' AND TeamMember.Is_deleted='N'" % my_result[1]
                 curr_cursor.execute(sql_query)
-                my_result = curr_cursor.fetchall()
-                tmp = [row[0] for row in my_result]
-                member_str = ",".join(tmp)
+            my_result = curr_cursor.fetchall()
+            tmp = [row[0] for row in my_result]
+            member_str = ",".join(tmp)
             
             sql_query = "SELECT Position FROM Card WHERE List_ID=%d AND Is_deleted='N' ORDER BY Position DESC" % in_list
             curr_cursor.execute(sql_query)
