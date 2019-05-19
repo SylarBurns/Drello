@@ -7,7 +7,7 @@ Handong Univ Database System Final project 2019
 
 To use our program Drello, you have to install python package mysql-connector by using `pip install mysql-connector-python`.
 
-And download our code or clone. `https://github.com/SylarBurns/Drello`.
+And download our code or clone. `git clone https://github.com/SylarBurns/Drello`.
 
 You can start this program with command `python src/Main.py`, and the program will automatically connect to the server which contains some basic data.
 
