@@ -2,6 +2,7 @@
 Handong Univ Database System Final project 2019
 
 **Python**
+
 `pip install mysql-connector-python`
 
 **AWS**
