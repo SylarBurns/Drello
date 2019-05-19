@@ -1,11 +1,14 @@
 import mysql.connector
+import mysql_auth
+
+login = mysql_auth.info
 
 db = mysql.connector.connect(
-	host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
- 	port=3306,
- 	user="gyqls",
- 	passwd="rnjssmdsoRj1",
- 	database = "Drello"
+	host=login['host'],
+ 	port=login['port'],
+ 	user=login['user'],
+ 	passwd=login['passwd'],
+ 	database =login['database'],
 )
 
 cursor = db.cursor()

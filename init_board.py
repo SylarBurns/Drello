@@ -1,14 +1,17 @@
 import mysql.connector
+import mysql_auth
 
-mydb = mysql.connector.connect(
-	host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
- 	port=3306,
- 	user="gyqls",
- 	passwd="rnjssmdsoRj1",
- 	database = "Drello"
+login = mysql_auth.info
+
+db = mysql.connector.connect(
+	host=login['host'],
+ 	port=login['port'],
+ 	user=login['user'],
+ 	passwd=login['passwd'],
+ 	database =login['database'],
 )
 
-mycursor = mydb.cursor()
+cursor = db.cursor()
 
 user = """CREATE TABLE User(
    User_ID int NOT NULL AUTO_INCREMENT,
@@ -215,12 +218,14 @@ teamMembers = [(1, 1, 'Y'),
 mycursor.executemany(sqlFormula, teamMembers)
 mydb.commit()
 
-sqlFormula = "INSERT INTO Board (Team_ID, User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s)"
+sqlFormula = "INSERT INTO Board (Team_ID, User_ID, Board_Title, CommentPerm, AddRmPerm, IsClosed, Visibility) VALUES (%s, %s, %s, %s, %s, %s, %s)"
 boards =[(-1 , 1, "First Board", "Member", "Member", True, "Private"),
          (-1, 2, "Second Board", "Disabled", "Member", False, "Public"),
          (-1, 3, "last Board", "Member", "Admin", False, "Public"),
          (1, -1, "OSS study", "Member", "Admin", False, "Public"),
          (1, -1, "DB Meeting", "Member", "Admin", False, "Public")]
+mycursor.executemany(sqlFormula, boards)
+mydb.commit()
 
 # sqlFormula = "INSERT INTO List (List_Title, Board_ID, Position) VALUES (%s, %s, %s)"
 # lists = [("Avengers", 1, 1),
@@ -243,6 +248,7 @@ BoardMember = [(1, 1, "Admin"),
          (2, 1, "Member"),
          (3, 2, "Member"),]
 mycursor.executemany(sqlFormula, BoardMember)
+mydb.commit()
 
 sqlFormula = "INSERT INTO Labels(Board_ID, Name, Color) VALUES(%s, %s, %s)"
 Labels = [(1, "Black Label", "Black"),

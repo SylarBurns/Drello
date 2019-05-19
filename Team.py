@@ -180,7 +180,7 @@ class Team:
         sql = "SELECT U.User_Name, U.Login_ID, TM.Permission, TM.User_ID \
             FROM Team as T, TeamMember as TM, User as U \
             WHERE T.Team_ID = TM.Team_ID AND TM.User_ID = U.User_ID \
-                AND TM.Is_deleted = 'N' AND TM.Team_ID = '%d'" %(self.team_ID)
+                AND TM.Is_deleted = 'N' AND TM.Team_ID = '%d' AND U.Is_deleted = 'N'" %(self.team_ID)
         self.cursor.execute(sql)
         users = self.cursor.fetchall()
         i = 1
