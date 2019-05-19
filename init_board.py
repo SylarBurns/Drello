@@ -1,24 +1,14 @@
 import mysql.connector
 
-# mydb = mysql.connector.connect(
-# 	host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
-#  	port=3306,
-#  	user="gyqls",
-#  	passwd="rnjssmdsoRj1",
-#  	database = "Drello"
-# )
-
 mydb = mysql.connector.connect(
-    host="localhost",
-    port=3306,
-    user="root",
-    passwd="mz0090mz",
-    database="Drello"
+	host="mydbinstance.cbp3whb5qyie.us-east-2.rds.amazonaws.com",
+ 	port=3306,
+ 	user="gyqls",
+ 	passwd="rnjssmdsoRj1",
+ 	database = "Drello"
 )
 
 mycursor = mydb.cursor()
-create_database = "CREATE DATABASE Drello"
-#mycursor.execute(create_database)
 
 user = """CREATE TABLE User(
    User_ID int NOT NULL AUTO_INCREMENT,
@@ -232,18 +222,18 @@ boards =[(-1 , 1, "First Board", "Member", "Member", True, "Private"),
          (1, -1, "OSS study", "Member", "Admin", False, "Public"),
          (1, -1, "DB Meeting", "Member", "Admin", False, "Public")]
 
-sqlFormula = "INSERT INTO List (List_Title, Board_ID, Position) VALUES (%s, %s, %s)"
-lists = [("Avengers", 1, 1),
-         ("Captain America", 1, 2),
-         ("Iron Man", 1, 3),
-         ("Thor", 1, 4),
-         ("Hulk", 1, 5),
-         ("black widow", 1, 6),
-         ("Hawkeye", 1, 7),
-         ("First list", 2, 1),
-         ("Second List", 2, 2),
-         ("Third List", 2, 3),]
-mycursor.executemany(sqlFormula, lists)
+# sqlFormula = "INSERT INTO List (List_Title, Board_ID, Position) VALUES (%s, %s, %s)"
+# lists = [("Avengers", 1, 1),
+#          ("Captain America", 1, 2),
+#          ("Iron Man", 1, 3),
+#          ("Thor", 1, 4),
+#          ("Hulk", 1, 5),
+#          ("black widow", 1, 6),
+#          ("Hawkeye", 1, 7),
+#          ("First list", 2, 1),
+#          ("Second List", 2, 2),
+#          ("Third List", 2, 3),]
+# mycursor.executemany(sqlFormula, lists)
 
 sqlFormula = "INSERT INTO BoardMember(Board_ID, User_ID, Permission) VALUES(%s, %s, %s)"
 BoardMember = [(1, 1, "Admin"),
@@ -268,51 +258,51 @@ Labels = [(1, "Black Label", "Black"),
 mycursor.executemany(sqlFormula, Labels)
 mydb.commit()
 
-sqlFormula = "INSERT INTO Card(List_ID, Card_Title, Position, Description) VALUES(%s, %s, %s, %s)"
-Card = [(1, "First card", "1", "hihihi "),
-         (2, "Card A",  "1","Hello I'm Card A"),
-         (1, "Second Card", "2", "hihi second card from first list"),
-         (1, "Third Card", "3", "33333333 card"),
-         (1, "Fourth Card", "4", "4_4_4_4_4-4-4-4-4-4"),
-         (1, "Fifth Card", "5", "Oh! 5 is perfect number"),
-         (2, "Card B", "2", "card b from 2"),
-         (2, "Card C", "3", "today's schedule..."),
-         (3, "11111", "1", "i'm hungry."),
-         (3, "22222", "2", "i'm tired."),]
-# mycursor.executemany(sqlFormula, Card)
+# sqlFormula = "INSERT INTO Card(List_ID, Card_Title, Position, Description) VALUES(%s, %s, %s, %s)"
+# Card = [(1, "First card", "1", "hihihi "),
+#          (2, "Card A",  "1","Hello I'm Card A"),
+#          (1, "Second Card", "2", "hihi second card from first list"),
+#          (1, "Third Card", "3", "33333333 card"),
+#          (1, "Fourth Card", "4", "4_4_4_4_4-4-4-4-4-4"),
+#          (1, "Fifth Card", "5", "Oh! 5 is perfect number"),
+#          (2, "Card B", "2", "card b from 2"),
+#          (2, "Card C", "3", "today's schedule..."),
+#          (3, "11111", "1", "i'm hungry."),
+#          (3, "22222", "2", "i'm tired."),]
+# # mycursor.executemany(sqlFormula, Card)
+# # mydb.commit()
+
+# sqlFormula = "INSERT INTO CheckList (Card_ID, Checklist_Name) VALUES(%s, %s)"
+# checklists = [(1, "Captain America"),
+#               (1, "Iron Man"),
+#               (2, "Thor"),
+#               (2, "Hulk"),
+#               (3, "black widow")]
+# mycursor.executemany(sqlFormula, checklists)
+
+# sqlFormula = "INSERT INTO Comment(User_ID, Card_ID, Content) VALUES (%s, %s, %s)"
+# Comment = [(1, 1, "my comment.."),
+#           (2, 2, "very good project!"),
+#           (3, 3, "sleeeeep....zzz"),
+#           (7, 4, "comment for test.."),
+#           (7, 5, "Database team project"),
+#           (4, 6, "we use python for project."),
+#           (6, 7, "and mysql!"),
+#           (2, 8, "we love computer ~!"),
+#           (1, 9, "hello, world!"),]
+# mycursor.executemany(sqlFormula, Comment)
 # mydb.commit()
 
-sqlFormula = "INSERT INTO CheckList (Card_ID, Checklist_Name) VALUES(%s, %s)"
-checklists = [(1, "Captain America"),
-              (1, "Iron Man"),
-              (2, "Thor"),
-              (2, "Hulk"),
-              (3, "black widow")]
-mycursor.executemany(sqlFormula, checklists)
-
-sqlFormula = "INSERT INTO Comment(User_ID, Card_ID, Content) VALUES (%s, %s, %s)"
-Comment = [(1, 1, "my comment.."),
-          (2, 2, "very good project!"),
-          (3, 3, "sleeeeep....zzz"),
-          (7, 4, "comment for test.."),
-          (7, 5, "Database team project"),
-          (4, 6, "we use python for project."),
-          (6, 7, "and mysql!"),
-          (2, 8, "we love computer ~!"),
-          (1, 9, "hello, world!"),]
-mycursor.executemany(sqlFormula, Comment)
-mydb.commit()
-
-sqlFormula = "INSERT INTO Attachment(Card_ID, User_ID, Type, Name) VALUES(%s, %s, %s, %s)"
-Attachment = [(1, 1, "pptx", "final"),
-          (1, 2, "docx", "first_commit"),
-          (3, 3, "txt", "my_txt"),
-          (4, 4, "jpg", "favorite_picture"),
-          (4, 5, "pptx", "presentation"),
-          (4, 6, "docx", "midterm"),
-          (6, 7, "jpg", "my_pick"),
-          (2, 8, "jpg", "hungry_TT"),
-          (5, 9, "docx", "message"),]
-mycursor.executemany(sqlFormula, Attachment)
-mydb.commit()
+# sqlFormula = "INSERT INTO Attachment(Card_ID, User_ID, Type, Name) VALUES(%s, %s, %s, %s)"
+# Attachment = [(1, 1, "pptx", "final"),
+#           (1, 2, "docx", "first_commit"),
+#           (3, 3, "txt", "my_txt"),
+#           (4, 4, "jpg", "favorite_picture"),
+#           (4, 5, "pptx", "presentation"),
+#           (4, 6, "docx", "midterm"),
+#           (6, 7, "jpg", "my_pick"),
+#           (2, 8, "jpg", "hungry_TT"),
+#           (5, 9, "docx", "message"),]
+# mycursor.executemany(sqlFormula, Attachment)
+# mydb.commit()
 
