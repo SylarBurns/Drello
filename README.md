@@ -1,9 +1,7 @@
 # Drello
 Handong Univ Database System Final project 2019
 
-**Python**
-
-**AWS**
+**Description**
 
 To use our program Drello, you have to install python package mysql-connector by using `pip install mysql-connector-python`.
 
