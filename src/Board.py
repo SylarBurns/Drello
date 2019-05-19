@@ -140,7 +140,6 @@ class Board_Manager:
           
     def board_specific(self, choice):
         self.db.commit()
-        #choice가 board_ID 인건가요  ? ?  ?
         os.system('cls' if os.name == 'nt' else 'clear')
         print("You selected",self.Board_list[choice])
         chosen_board = Board_Specific.Specific_Board_Manager(-1,self.Board_list[choice], self.db, self.user_ID)
