@@ -11,6 +11,7 @@ You can start this program with command `python Main.py`.
 You can access the functionalities of this program by entering the number shown to the left of their names.
 
 **Test ID**
-You can test our program, with Handong ID.
+
+You can test our program, with `Handong ID.`
 * ID : Handong
 * PW : 1111
