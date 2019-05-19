@@ -127,7 +127,7 @@ class Team:
                 print("Team Website is changed\n")
             elif(choice == 4):
                 Description = input("Description : ")
-                sql = "Update Team Description = '%s' WHERE Team_ID = '%d'" % (Description, self.team_ID)
+                sql = "Update Team SET Description = '%s' WHERE Team_ID = '%d'" % (Description, self.team_ID)
                 print("Team Description is changed\n")
             elif(choice == 5) :
                 sql = "Update Team Set Visibility = '%s' WHERE Team_ID = '%d'" % (YesOrNo , self.team_ID)
@@ -139,6 +139,9 @@ class Team:
                 
             self.cursor.execute(sql)
             self.db.commit()
+
+            input(" ENTER : ")
+            self.editTeamProfile()
 
 
     def teamsBoard(self):
@@ -415,8 +418,7 @@ class Team:
                         if(answer.lower() == "y") :
                             # print("\nDrello send Invite E-Mail to %s\n" % (allfinduser[c-1][2]))
                             sql = "Replace INTO TeamMember (Team_ID, User_ID, Permission) VALUES ('%d', '%d', 'N')" % (self.team_ID, allfinduser[c-1][0])
-                            se
-                            lf.cursor.execute(sql)
+                            self.cursor.execute(sql)
                             self.db.commit()
                             break
                         elif(answer.lower() == "n") :
