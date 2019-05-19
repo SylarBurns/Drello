@@ -1,7 +1,3 @@
-
-# coding: utf-8
-
-# In[ ]:
 import mysql.connector
 
 mydb = mysql.connector.connect(
