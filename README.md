@@ -18,5 +18,4 @@ You can test our program, with `Handong ID.`
 * ID : Handong
 * PW : 1111
 
-**Demo Video**
-https://youtu.be/jEqGSrcVUzg 
+[**Demo Video**][https://youtu.be/jEqGSrcVUzg]
